@@ -1,0 +1,456 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>UPSIDE Screen Activities</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&display=swap">
+<style>
+/* Layout: a magazine on the classroom screen. Masthead + issue tabs; each issue is a "spread" of activity cards. Single committed paper look (projector-friendly). */
+:root{
+  --paper:#FBF9F4; --paper2:#F1ECE2; --paper3:#E7E1D4; --ink:#141312; --muted:#6B675F; --rule:#D8D2C4;
+  --i1:#D7262C; --i2:#FFC72C; --i3:#7A3CF0; --i4:#EC2F7B; --i5:#1E6BFF; --i6:#12A150;
+  --i1t:#C21F25; --i2t:#8A6300; --i3t:#6A2DE0; --i4t:#C8185F; --i5t:#1556D6; --i6t:#0B7F3D;
+  --good:#12A150; --bad:#D7262C;
+  --acc:var(--i1); --acct:var(--i1t); --on:#fff;
+  --display:'Anton','Impact','Haettenschweiler','Arial Narrow Bold',sans-serif;
+  --serif:'Newsreader','Georgia','Times New Roman',serif;
+  --sans:'Archivo','Arial','Helvetica',sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.45;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 48px}
+body[data-issue="2"]{--acc:var(--i2);--acct:var(--i2t);--on:#141312}
+body[data-issue="3"]{--acc:var(--i3);--acct:var(--i3t)}
+body[data-issue="4"]{--acc:var(--i4);--acct:var(--i4t)}
+body[data-issue="5"]{--acc:var(--i5);--acct:var(--i5t)}
+body[data-issue="6"]{--acc:var(--i6);--acct:var(--i6t)}
+body[data-issue="0"]{--acc:var(--ink);--acct:var(--ink)}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto}
+header.mast{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 28px;padding-block:22px 12px;border-bottom:3px solid var(--ink)}
+.logo{font-family:var(--display);font-size:clamp(54px,9vw,104px);line-height:.86;letter-spacing:.01em;color:var(--acc);margin:0;transition:color .3s}
+body[data-issue="2"] .logo{color:var(--ink)}
+.mast .tag{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase}
+.mast .sub{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted)}
+.mast .meta{display:flex;flex-direction:column;gap:4px;padding-bottom:8px;min-width:0}
+nav.issues{display:flex;flex-wrap:wrap;gap:8px;padding-block:14px}
+nav.issues button{border:0;border-radius:3px;padding:10px 14px;font-weight:800;letter-spacing:.06em;font-size:14px;background:var(--paper2);display:flex;gap:8px;align-items:center}
+nav.issues button .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+nav.issues button[aria-selected="true"]{background:var(--ink);color:#fff}
+.issue-head{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:end;padding-block:18px 8px}
+.issue-no{font-family:var(--display);font-size:clamp(56px,8vw,96px);line-height:.85;color:var(--acc);-webkit-text-stroke:0}
+body[data-issue="2"] .issue-no{color:var(--ink);background:var(--i2);padding:0 10px}
+.issue-title{font-family:var(--display);font-size:clamp(30px,4.2vw,52px);line-height:.95;text-wrap:balance;margin:0}
+.issue-unit{grid-column:2;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--acct)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:22px;padding-top:12px}
+.card{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:22px;min-width:0;box-shadow:0 1px 0 var(--rule),0 10px 24px -18px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:14px}
+.card.wide{grid-column:1/-1}
+.kicker{align-self:flex-start;background:var(--acc);color:var(--on);font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:5px 9px}
+.kicker.screen{background:var(--ink);color:#fff}
+.card h3{font-family:var(--display);font-weight:400;font-size:clamp(28px,3vw,38px);line-height:1;margin:0;text-wrap:balance}
+.card .how{font-family:var(--serif);font-style:italic;color:#3b3833;margin:0;font-size:18px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:2px solid var(--ink);background:#fff;padding:9px 16px;border-radius:3px;font-weight:800;letter-spacing:.04em}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.btn.sm{padding:5px 10px;font-size:14px}
+.btn:active{transform:translateY(1px)}
+input[type=text],select{font:inherit;border:2px solid var(--ink);border-radius:3px;padding:9px 12px;background:#fff;min-width:0;flex:1}
+.example{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+/* ticker */
+.ticker{background:var(--ink);color:#fff;overflow:hidden;border-radius:3px;display:flex;align-items:stretch}
+.ticker .live{background:var(--bad);color:#fff;font-weight:800;letter-spacing:.15em;padding:14px 16px;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.ticker .live::before{content:"";width:9px;height:9px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.ticker .track{flex:1;overflow:hidden;position:relative;min-width:0}
+.ticker .run{display:inline-block;white-space:nowrap;padding:12px 0;font-family:var(--display);font-size:clamp(22px,3vw,34px);letter-spacing:.02em;animation:scroll var(--dur,30s) linear infinite;padding-left:100%}
+.ticker .run span{margin-right:48px}
+.ticker .run span::after{content:"  ●";color:var(--i2);margin-left:48px}
+@keyframes scroll{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.ticker .run{animation:none;padding-left:16px;white-space:normal}}
+.hl-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto}
+.hl-list li{display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding:6px 0;font-family:var(--display);font-size:20px;letter-spacing:.01em}
+.hl-list li button{border:0;background:none;color:var(--muted);font-size:20px}
+/* TAF */
+.taf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:720px){.taf{grid-template-columns:1fr}}
+.taf svg{width:100%;max-width:420px;height:auto;justify-self:center}
+.taf .node rect{fill:#fff;stroke:var(--acc);stroke-width:3;transition:fill .3s}
+.taf .node text{font-family:var(--display);font-size:22px;fill:var(--ink)}
+.taf .node.on rect{fill:var(--acc)}
+.taf .node.on text{fill:var(--on)}
+.taf.fail .node rect{stroke:var(--ink)}
+.taf.fail .node.on rect{fill:var(--ink)}
+.taf.fail .node.on text{fill:#fff}
+.taf .ring{fill:none;stroke:var(--acc);stroke-width:4}
+.taf.fail .ring{stroke:var(--ink);stroke-dasharray:10 8}
+.taf .center{fill:var(--acc)}
+.taf.fail .center{fill:#2a2a2a}
+.taf .ctext{font-family:var(--display);font-size:26px;fill:var(--on)}
+.taf.fail .ctext{fill:#fff}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{border-left:0;background:var(--paper2);padding:10px 14px;border-radius:3px;opacity:.35;transition:opacity .3s}
+.steps li.on{opacity:1}
+.steps b{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acct)}
+.taf.fail .steps b{color:var(--ink)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:3px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:8px 14px;font-weight:800}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+/* flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.flip{border:0;padding:0;background:none;perspective:900px;min-height:150px;text-align:left}
+.flip .in{position:relative;width:100%;height:100%;min-height:150px;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.flip .f{background:var(--paper2)}
+.flip .b{background:var(--ink);color:#fff;transform:rotateY(180deg)}
+.flip .q{font-size:18px;font-weight:600}
+.flip .a{font-family:var(--display);font-size:26px;line-height:1.05}
+.flip .a.good{color:#6BE39B}.flip .a.bad{color:#FF8A8E}
+.flip .lab{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.flip .b .lab{color:#bbb}
+.flip .note{font-size:14px;color:#ddd}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}}
+/* tally */
+.tally{display:flex;flex-direction:column;gap:8px}
+.tally .opt{display:grid;grid-template-columns:minmax(110px,170px) 1fr auto;gap:10px;align-items:center}
+.tally .opt button.name{border:2px solid var(--ink);background:#fff;border-radius:3px;padding:8px 10px;font-weight:800;text-align:left}
+.tally .bar{height:34px;background:var(--paper2);border-radius:3px;overflow:hidden}
+.tally .bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .35s}
+.tally .n{font-family:var(--display);font-size:26px;min-width:2ch;text-align:right;font-variant-numeric:tabular-nums}
+.tally .opt.top .bar i{background:var(--ink)}
+/* timers */
+.timer{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:560px){.timer{grid-template-columns:1fr;justify-items:center}}
+.timer svg{width:min(240px,60vw);height:auto}
+.timer .track{fill:none;stroke:var(--paper3);stroke-width:14}
+.timer .prog{fill:none;stroke:var(--acc);stroke-width:14;stroke-linecap:butt;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .9s linear}
+.timer .t{font-family:var(--display);font-size:52px;fill:var(--ink);font-variant-numeric:tabular-nums}
+.timer .done .t{fill:var(--bad)}
+.flash{animation:flash .5s 6}
+@keyframes flash{50%{background:var(--acc);color:var(--on)}}
+@media (prefers-reduced-motion:reduce){.flash{animation:none;outline:6px solid var(--acc)}}
+/* matchup */
+.mu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:10px}
+.emo{border:2px solid var(--rule);border-radius:4px;padding:10px 12px;background:var(--paper);display:flex;flex-direction:column;gap:6px;min-height:110px;text-align:left}
+.emo.target{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc) inset}
+.emo h4{margin:0;font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.02em}
+.emo p{margin:0;font-size:14px;color:#3b3833}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:5px 12px;font-size:14px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.chip.good{background:#E3F6EA;border-color:var(--good)}
+.chip.bad{background:#FDE4E4;border-color:var(--bad);text-decoration:line-through}
+.chip.used{opacity:.35}
+/* breathe */
+.breathe{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+@media (max-width:640px){.breathe{grid-template-columns:1fr;justify-items:center}}
+.box{width:min(260px,62vw);aspect-ratio:1;max-width:100%;border:6px solid var(--acc);border-radius:6px;position:relative}
+.box .dot{position:absolute;width:28px;height:28px;border-radius:50%;background:var(--ink);left:-17px;top:calc(100% - 11px);}
+.phase{font-family:var(--display);font-size:clamp(40px,6vw,64px);line-height:1}
+.count{font-family:var(--display);font-size:clamp(64px,10vw,110px);line-height:.9;color:var(--acct);font-variant-numeric:tabular-nums}
+/* rumor */
+.chain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;counter-reset:p}
+.chain li+li{counter-increment:p}
+.chain li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:var(--paper2);padding:10px 14px;border-radius:3px;font-family:var(--serif);font-size:19px}
+.chain li::before{content:"Pass " counter(p);font-family:var(--sans);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:5px;white-space:nowrap}
+.chain li:first-child::before{content:"Original"}
+.chain li:first-child{background:#fff;border:2px solid var(--ink)}
+/* quiz */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
+.tile{border:0;border-radius:4px;color:#fff;padding:14px;min-height:120px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
+.tile .k{font-size:12px;font-weight:800;letter-spacing:.16em}
+.tile .num{font-family:var(--display);font-size:46px;line-height:1}
+.tile.done{opacity:.35}
+.qbox{background:var(--ink);color:#fff;border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.qbox .q{font-size:clamp(22px,2.6vw,30px);font-weight:600;line-height:1.25}
+.qbox .a{font-family:var(--display);font-size:clamp(26px,3.2vw,40px);color:#6BE39B}
+.scores{display:flex;flex-wrap:wrap;gap:10px}
+.score{background:var(--paper2);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:110px}
+.score .nm{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.score .pts{font-family:var(--display);font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+.relay-map{width:100%;border-collapse:collapse;font-size:16px}
+.relay-map th,.relay-map td{border:1px solid var(--rule);padding:6px 8px;text-align:left}
+.relay-map th{background:var(--ink);color:#fff;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.relay-map td.now{background:var(--acc);color:var(--on);font-weight:800}
+.tablewrap{overflow-x:auto}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.cols2{grid-template-columns:1fr}}
+.col{background:var(--paper2);border-radius:4px;padding:12px;min-width:0}
+.col h4{margin:0 0 8px;font-family:var(--display);font-weight:400;font-size:30px}
+.col ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:18px}
+.pick{font-family:var(--display);font-size:clamp(48px,8vw,90px);line-height:1;color:var(--acct);min-height:1.1em}
+footer{margin-top:36px;border-top:1px solid var(--rule);padding-top:14px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <h1 class="logo">UPSIDE</h1>
+    <div class="meta">
+      <span class="tag">The Positive Action Series · Screen Activities</span>
+      <span class="sub">Put this on the classroom screen. Pick the issue, then the activity.</span>
+    </div>
+  </header>
+  <nav class="issues" id="tabs" role="tablist" aria-label="Issues"></nav>
+  <main id="view"></main>
+  <footer>
+    <span>Positive Action philosophy: “You feel good about yourself when you do positive actions, and there is a positive way to do everything.”</span>
+    <span>Be kind · Be respectful · Don’t judge · This is a safe space</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+const $ = (s, el = document) => el.querySelector(s);
+const h = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v); } for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c)); return e; };
+const store = { get(k, d) { try { const v = localStorage.getItem('upside:' + k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem('upside:' + k, JSON.stringify(v)); } catch {} } };
+let AC = null;
+function chime() { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); [880, 1320].forEach((f, i) => { const o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = f; o.type = 'sine'; g.gain.setValueAtTime(0.0001, AC.currentTime + i * .35); g.gain.exponentialRampToValueAtTime(.35, AC.currentTime + i * .35 + .02); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime + i * .35 + 1.2); o.connect(g).connect(AC.destination); o.start(AC.currentTime + i * .35); o.stop(AC.currentTime + i * .35 + 1.3); }); } catch {} }
+const fmt = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+const card = (kicker, title, how, ...body) => h('section', { class: 'card' + (kicker.wide ? ' wide' : '') }, h('span', { class: 'kicker' + (kicker.screen ? ' screen' : '') }, kicker.t), h('h3', {}, title), how ? h('p', { class: 'how' }, how) : null, ...body);
+const K = (t, o = {}) => ({ t, ...o });
+
+/* ---------- components ---------- */
+function Timer(presets, def, label = 'Timer') {
+  let total = def, left = def, id = null;
+  const C = 2 * Math.PI * 100;
+  const prog = h('circle'); prog.setAttribute('class', 'prog');
+  const svg = new DOMParser().parseFromString(`<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${label}"><circle class="track" cx="120" cy="120" r="100"/><circle class="prog" cx="120" cy="120" r="100" stroke-dasharray="${C}" stroke-dashoffset="0"/><text class="t" x="120" y="138" text-anchor="middle">${fmt(def)}</text></svg>`, 'image/svg+xml').documentElement;
+  const wrap = h('div', { class: 'timer' }); wrap.append(document.importNode(svg, true));
+  const s = wrap.querySelector('svg'), p = s.querySelector('.prog'), t = s.querySelector('.t');
+  const draw = () => { t.textContent = left > 0 ? fmt(left) : 'TIME!'; p.style.strokeDashoffset = C * (1 - left / total); s.classList.toggle('done', left <= 0); };
+  const stop = () => { clearInterval(id); id = null; go.textContent = 'Start'; };
+  const go = h('button', { class: 'btn primary', onclick() { if (id) return stop(); if (left <= 0) left = total; go.textContent = 'Pause'; id = setInterval(() => { left--; draw(); if (left <= 0) { stop(); chime(); wrap.closest('.card')?.classList.add('flash'); setTimeout(() => wrap.closest('.card')?.classList.remove('flash'), 3200); } }, 1000); } }, 'Start');
+  const set = sec => { stop(); total = left = sec; draw(); };
+  const ctr = h('div', { class: 'row' }, go, h('button', { class: 'btn', onclick() { set(total); } }, 'Reset'), ...presets.map(sec => h('button', { class: 'btn sm', onclick() { set(sec); } }, fmt(sec))));
+  wrap.append(h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, ctr));
+  draw();
+  return { el: wrap, set, stop };
+}
+function Flips(items, opts = {}) {
+  return h('div', { class: 'flips' }, items.map(it => { const b = h('button', { class: 'flip', 'aria-label': 'Flip card: ' + it.q, onclick() { b.classList.toggle('on'); } }, h('div', { class: 'in' }, h('div', { class: 'f' }, h('span', { class: 'lab' }, it.lab || opts.lab || 'Tap to reveal'), h('span', { class: 'q' }, it.q)), h('div', { class: 'b' }, h('span', { class: 'lab' }, it.blab || opts.blab || 'Answer'), h('span', { class: 'a ' + (it.tone || '') }, it.a), it.note ? h('span', { class: 'note' }, it.note) : null))); return b; }));
+}
+function Tally(key, options) {
+  let counts = store.get('tally:' + key, null) || Object.fromEntries(options.map(o => [o, 0]));
+  const box = h('div', { class: 'tally' });
+  const draw = () => {
+    box.replaceChildren();
+    const max = Math.max(1, ...Object.values(counts)); const top = Math.max(...Object.values(counts));
+    for (const o of Object.keys(counts)) {
+      const n = counts[o];
+      box.append(h('div', { class: 'opt' + (n && n === top ? ' top' : '') }, h('button', { class: 'name', onclick() { counts[o]++; store.set('tally:' + key, counts); draw(); }, 'aria-label': `Add one vote for ${o}` }, '+ ' + o), h('div', { class: 'bar' }, (() => { const i = h('i'); requestAnimationFrame(() => i.style.width = (n / max * 100) + '%'); return i; })()), h('span', { class: 'n' }, n)));
+    }
+  };
+  draw();
+  const add = h('input', { type: 'text', id: 'add-' + key, placeholder: 'Add an option…', 'aria-label': 'Add an option' });
+  const ctl = h('div', { class: 'row' }, add, h('button', { class: 'btn', onclick() { const v = add.value.trim(); if (v && !(v in counts)) { counts[v] = 0; add.value = ''; store.set('tally:' + key, counts); draw(); } } }, 'Add'), h('button', { class: 'btn', onclick() { for (const k in counts) counts[k] = 0; store.set('tally:' + key, counts); draw(); } }, 'Reset votes'));
+  return h('div', { style: 'display:flex;flex-direction:column;gap:12px' }, box, options.allowAdd === false ? null : ctl);
+}
+function ListBuilder(key, placeholder, samples) {
+  let items = store.get('list:' + key, null) ?? samples.slice();
+  const ul = h('ul', { class: 'hl-list' });
+  const draw = () => { ul.replaceChildren(...items.map((t, i) => h('li', {}, h('span', {}, t), h('button', { 'aria-label': 'Remove ' + t, onclick() { items.splice(i, 1); store.set('list:' + key, items); draw(); onchg(); } }, '×')))); };
+  let onchg = () => {};
+  const inp = h('input', { type: 'text', id: 'in-' + key, placeholder, 'aria-label': placeholder });
+  const addIt = () => { const v = inp.value.trim(); if (!v) return; items.unshift(v); inp.value = ''; store.set('list:' + key, items); draw(); onchg(); };
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') addIt(); });
+  draw();
+  return { el: h('div', { style: 'display:flex;flex-direction:column;gap:10px' }, h('div', { class: 'row' }, inp, h('button', { class: 'btn acc', onclick: addIt }, 'Add')), ul), get: () => items, on(f) { onchg = f; } };
+}
+function Scoreboard(key, n = 4) {
+  let s = store.get('score:' + key, null) || Array.from({ length: n }, (_, i) => ({ nm: 'Desk ' + (i + 1), pts: 0 }));
+  const box = h('div', { class: 'scores' });
+  const draw = () => box.replaceChildren(...s.map((d, i) => h('div', { class: 'score' }, h('span', { class: 'nm' }, d.nm), h('span', { class: 'pts' }, d.pts), h('div', { class: 'row' }, h('button', { class: 'btn sm', 'aria-label': 'Minus one for ' + d.nm, onclick() { d.pts = Math.max(0, d.pts - 1); save(); } }, '−'), h('button', { class: 'btn sm acc', 'aria-label': 'Plus one for ' + d.nm, onclick() { d.pts++; save(); } }, '+')))));
+  const save = () => { store.set('score:' + key, s); draw(); };
+  draw();
+  return h('div', { style: 'display:flex;flex-direction:column;gap:10px' }, box, h('div', { class: 'row' }, h('button', { class: 'btn sm', onclick() { if (s.length < 8) { s.push({ nm: 'Desk ' + (s.length + 1), pts: 0 }); save(); } } }, '+ Desk'), h('button', { class: 'btn sm', onclick() { if (s.length > 2) { s.pop(); save(); } } }, '− Desk'), h('button', { class: 'btn sm', onclick() { s.forEach(d => d.pts = 0); save(); } }, 'Reset scores')));
+}
+
+/* ---------- issue content ---------- */
+const ISSUES = [
+  { no: 0, short: 'Tools', title: 'Classroom tools', unit: 'Timer · reporter picker · Desk scoreboard', build: tools },
+  { no: 1, short: '01', title: 'Doing Good, Feeling Good', unit: 'Positive Action Unit 1 · Philosophy & the TAF Circle', build: i1 },
+  { no: 2, short: '02', title: 'Positive Actions, Strong Minds, Safe Circles', unit: 'Unit 2 · Physical & intellectual', build: i2 },
+  { no: 3, short: '03', title: 'Managing Emotions', unit: 'Unit 3 · Self-management', build: i3 },
+  { no: 4, short: '04', title: 'How I Want to Be Treated', unit: 'Unit 4 · Getting along with others', build: i4 },
+  { no: 5, short: '05', title: 'Telling Yourself the Truth', unit: 'Unit 5 · Honesty with self & others', build: i5 },
+  { no: 6, short: '06', title: 'Pointed in a Positive Direction', unit: 'Unit 6 · Continual self-improvement', build: i6 },
+];
+
+function ticker() {
+  const L = ListBuilder('ticker', 'Type a headline and press Enter…', ['SEVENTH GRADER SAVES A SEAT FOR THE NEW KID', 'TEAM CLEANS UP GYM WITHOUT BEING ASKED', 'LOCAL STUDENT HOLDS DOOR FOR ENTIRE 7TH GRADE']);
+  const run = h('div', { class: 'run' });
+  const draw = () => { const it = L.get(); run.replaceChildren(...(it.length ? it : ['TYPE THE FIRST HEADLINE BELOW']).map(t => h('span', {}, t.toUpperCase()))); run.style.setProperty('--dur', Math.max(18, it.join(' ').length * 0.28) + 's'); };
+  L.on(draw); draw();
+  return card(K('Breaking news', { wide: true, screen: true }), 'The Good News Ticker', 'Reporters call out a headline: short, bold, present tense. Type it, and it scrolls. Headlines stay saved on this computer all season. The three below are examples; remove them anytime.',
+    h('div', { class: 'ticker' }, h('div', { class: 'live' }, 'LIVE'), h('div', { class: 'track' }, run)), L.el);
+}
+
+function tafStepper() {
+  const data = {
+    success: { c: 'SUCCESS\nCIRCLE', steps: [['Thought', '“I want to treat people with respect.”'], ['Action', 'I include someone or speak up.'], ['Feeling about self', 'Proud. Confident. Good about who I am.'], ['…next thought', 'That feeling sparks another positive thought. Round and round.']] },
+    failure: { c: 'FAILURE\nCIRCLE', steps: [['Thought', '“I’ll feel better if I embarrass them.”'], ['Action', 'Teasing. Mocking. Leaving someone out.'], ['Feeling about self', 'Guilt. Regret. Feeling worse about who I am.'], ['…next thought', 'More negative thoughts and actions. The circle keeps spinning.']] },
+  };
+  let mode = 'success', k = -1;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svgSrc = `<svg viewBox="0 0 420 400" xmlns="${ns}" role="img" aria-label="Thoughts, Actions, Feelings about Self circle"><circle class="ring" cx="210" cy="205" r="140"/><circle class="center" cx="210" cy="205" r="72"/><text class="ctext" text-anchor="middle" x="210" y="198">SUCCESS</text><text class="ctext" text-anchor="middle" x="210" y="228">CIRCLE</text>
+  <g class="node" data-i="0"><rect x="140" y="38" width="140" height="58" rx="8"/><text x="210" y="76" text-anchor="middle">THOUGHTS</text></g>
+  <g class="node" data-i="1"><rect x="268" y="252" width="140" height="58" rx="8"/><text x="338" y="290" text-anchor="middle">ACTIONS</text></g>
+  <g class="node" data-i="2"><rect x="12" y="252" width="150" height="58" rx="8"/><text x="87" y="278" text-anchor="middle" style="font-size:17px">FEELINGS</text><text x="87" y="300" text-anchor="middle" style="font-size:17px">ABOUT SELF</text></g></svg>`;
+  const svg = document.importNode(new DOMParser().parseFromString(svgSrc, 'image/svg+xml').documentElement, true);
+  const ol = h('ol', { class: 'steps' });
+  const box = h('div', { class: 'taf' }, svg, ol);
+  const draw = () => {
+    box.classList.toggle('fail', mode === 'failure');
+    const [a, b] = data[mode].c.split('\n'); const ct = svg.querySelectorAll('.ctext'); ct[0].textContent = a; ct[1].textContent = b;
+    svg.querySelectorAll('.node').forEach(n => n.classList.toggle('on', +n.dataset.i === (k === 3 ? 0 : k)));
+    ol.replaceChildren(...data[mode].steps.map(([t, d], i) => h('li', { class: i <= k ? 'on' : '' }, h('b', {}, t), d)));
+  };
+  const segS = h('button', { 'aria-pressed': 'true', onclick() { mode = 'success'; k = -1; segS.setAttribute('aria-pressed', 'true'); segF.setAttribute('aria-pressed', 'false'); draw(); } }, 'Success circle');
+  const segF = h('button', { 'aria-pressed': 'false', onclick() { mode = 'failure'; k = -1; segF.setAttribute('aria-pressed', 'true'); segS.setAttribute('aria-pressed', 'false'); draw(); } }, 'Failure circle');
+  draw();
+  return card(K('The TAF Circle', { wide: true }), 'Thoughts → Actions → Feelings about self', 'Click Next to move around the circle. Positive Action calls a positive loop a Success Circle and a negative loop a Failure Circle.',
+    h('div', { class: 'row' }, h('div', { class: 'seg' }, segS, segF), h('button', { class: 'btn acc', onclick() { k = (k + 1) % 4; draw(); } }, 'Next ▶'), h('button', { class: 'btn', onclick() { k = -1; draw(); } }, 'Start over')), box);
+}
+
+function i1() {
+  return [ticker(), tafStepper(),
+    card(K('Activity · prep timer'), 'Stop · Choose · Go', 'Desks prepare a 30-second news report on their Dear UPSIDE letter. STOP: the negative thought. CHOOSE: a better thought. GO: a positive action.', Timer([120, 180, 300], 300, 'Prep timer').el),
+    card(K('Bullying & school climate'), 'Four Corners', 'Who gets hurt the most when bullying happens? Students walk to a corner; tap to count each corner.', Tally('corners', ['Target', 'Bully', 'Watchers', 'Everyone']))];
+}
+function i2() {
+  const scen = ['Someone is pushed in the hallway', 'A group chat starts making fun of someone', 'A student trips another “as a joke”', 'Someone is embarrassed during class'];
+  let si = 0; const sh = h('div', { class: 'pick', style: 'font-size:clamp(28px,4vw,46px)' }, scen[0]); const T = Timer([90], 90, 'Speed round timer');
+  return [
+    card(K('Recap · thumbs'), 'Last issue in 60 seconds', 'Read each statement. Thumbs up for TRUE, down for FALSE. Then tap to reveal.', Flips([{ q: 'When we do positive actions, we feel good about ourselves.', a: 'TRUE', tone: 'good' }, { q: 'Bullying starts with actions, not thoughts.', a: 'FALSE', tone: 'bad', note: 'Bullying starts with THOUGHTS.' }, { q: 'Looking for the best in others protects our own self-respect.', a: 'TRUE', tone: 'good' }, { q: 'When enough people do positive actions, bullying fades.', a: 'TRUE', tone: 'good' }])),
+    card(K('Game · Swap It!'), 'Instead of… try this', 'First Desk to stand and shout a good swap scores. Then flip the card for the official swap.', Flips([{ q: 'Pushing and shoving', a: 'Being gentle and respectful' }, { q: 'Making fun of others', a: 'Saying positive or neutral things' }, { q: 'Standing by', a: 'Helping or getting help' }], { lab: 'Instead of…', blab: '…try this' })),
+    card(K('Speed rounds', { wide: true }), 'What would you do?', 'Negative action? Positive action instead? When the timer ends, rotate partners and go to the next scenario.', h('div', { class: 'row', style: 'align-items:flex-start;gap:24px' }, h('div', { style: 'flex:1;min-width:min(100%,260px);display:flex;flex-direction:column;gap:10px' }, h('span', { class: 'example' }, 'Scenario'), sh, h('div', { class: 'row' }, h('button', { class: 'btn', onclick() { si = (si + scen.length - 1) % scen.length; sh.textContent = scen[si]; T.set(90); } }, '◀ Prev'), h('button', { class: 'btn acc', onclick() { si = (si + 1) % scen.length; sh.textContent = scen[si]; T.set(90); } }, 'Next scenario ▶'))), T.el)),
+    card(K('Class vote'), 'Our Safe Circle pledge', 'Add the top ideas from the yarn web. Tap to count hands. The longest bar goes on the pledge poster.', Tally('pledge', ['Include people at lunch', 'No mean jokes in the group chat', 'Check on anyone who looks left out'])),
+    card(K('Brain teaser'), 'What gets bigger the more you take away from it?', 'Desks huddle for 60 seconds and whisper ONE answer. Problem solving, not reacting.', Flips([{ q: 'Tap when every Desk has whispered an answer', a: 'A hole.', note: 'Pause → think → solve. That works on people problems too.' }])),
+  ];
+}
+function matchup() {
+  const emos = [['Anger', 'Someone shoves you in the hallway and laughs.'], ['Fear', 'You hear a group is planning to “get” you after school.'], ['Frustration', 'You studied hard and still failed the quiz.'], ['Jealousy', 'Your best friend is spending all their time with someone new.'], ['Embarrassment', 'You trip in front of the whole cafeteria.'], ['Hurt', 'Everyone’s talking about a party you weren’t invited to.'], ['Nervousness', 'You have to present in front of the class tomorrow.'], ['Disappointment', 'You didn’t make the team.']];
+  const resp = [['Pause and take 3 deep breaths', 1], ['Walk away and cool down', 1], ['Count to 10 before you speak', 1], ['Talk to a trusted adult or friend', 1], ['Write or draw how you feel', 1], ['Ask for help', 1], ['Get moving: walk, stretch, shoot hoops', 1], ['Tell yourself: “I can handle this.”', 1], ['Practice or prepare: make a plan', 1], ['Remind yourself what you’re good at', 1], ['Yell or slam something', 0], ['Post about it online right away', 0], ['Get back at them', 0], ['Bottle it up and pretend you’re fine', 0], ['Spread a rumor about them', 0]];
+  let sel = null, checked = false; const placed = {};
+  const chipsBox = h('div', { class: 'chips' }); const grid = h('div', { class: 'mu' });
+  const draw = () => {
+    chipsBox.replaceChildren(...resp.map(([t, ok], i) => h('button', { class: 'chip' + (sel === i ? '' : ''), 'aria-pressed': sel === i ? 'true' : 'false', onclick() { sel = sel === i ? null : i; checked = false; draw(); } }, t)));
+    grid.replaceChildren(...emos.map(([e, sit]) => h('button', { class: 'emo' + (sel != null ? ' target' : ''), onclick() { if (sel == null) return; (placed[e] ||= []); if (!placed[e].includes(sel)) placed[e].push(sel); sel = null; draw(); }, 'aria-label': `Place selected response on ${e}` }, h('h4', {}, e), h('p', {}, sit), h('div', { class: 'chips' }, (placed[e] || []).map(i => h('span', { class: 'chip' + (checked ? (resp[i][1] ? ' good' : ' bad') : ''), role: 'button', tabindex: 0, title: 'Click to remove', onclick(ev) { ev.stopPropagation(); placed[e] = placed[e].filter(x => x !== i); draw(); } }, resp[i][0]))))));
+  };
+  draw();
+  return card(K('Team activity', { wide: true }), 'Emotion Match-Up', 'Tap a response, then tap the emotion it fits. Some responses are NOT healthy, on purpose. When you’re done, press Check.',
+    h('div', { class: 'row' }, h('button', { class: 'btn acc', onclick() { checked = true; draw(); } }, 'Check'), h('button', { class: 'btn', onclick() { for (const k in placed) delete placed[k]; checked = false; sel = null; draw(); } }, 'Clear board')), h('span', { class: 'example' }, 'Responses'), chipsBox, grid);
+}
+function breathe() {
+  const box = h('div', { class: 'box' }); const dot = h('div', { class: 'dot' }); box.append(dot);
+  const ph = h('div', { class: 'phase' }, 'Ready?'), ct = h('div', { class: 'count' }, '4'), rd = h('div', { class: 'example' }, 'Four rounds · about 70 seconds');
+  let id = null;
+  const phases = [['Breathe in', [0, 1], [0, 0]], ['Hold', [0, 0], [1, 0]], ['Breathe out', [1, 0], [1, 1]], ['Hold', [1, 1], [0, 1]]];
+  const place = (x, y) => { dot.style.left = `calc(${x * 100}% - 17px)`; dot.style.top = `calc(${y * 100}% - 17px)`; };
+  place(0, 1);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = () => {
+    if (id) { clearInterval(id); id = null; btn.textContent = 'Start'; return; }
+    btn.textContent = 'Stop'; let t = 0;
+    const tick = () => { const round = Math.floor(t / 16), p = Math.floor(t / 4) % 4, s = 4 - (t % 4); if (round >= 4) { clearInterval(id); id = null; ph.textContent = 'Well done.'; ct.textContent = '✓'; btn.textContent = 'Again'; chime(); return; } ph.textContent = phases[p][0]; ct.textContent = s; rd.textContent = `Round ${round + 1} of 4`; const [a, b] = [phases[p][1], phases[p][2]]; const f = (t % 4 + 1) / 4; if (!reduce) { dot.style.transition = 'left 1s linear, top 1s linear'; place(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f); } t++; };
+    tick(); id = setInterval(tick, 1000);
+  };
+  const btn = h('button', { class: 'btn acc', onclick: start }, 'Start');
+  return card(K('Breathe with me'), 'Box breathing: 4 · 4 · 4 · 4', 'Follow the dot around the box. In for 4, hold 4, out for 4, hold 4.', h('div', { class: 'breathe' }, box, h('div', { style: 'display:flex;flex-direction:column;gap:8px' }, ph, ct, rd, h('div', { class: 'row' }, btn))));
+}
+function i3() {
+  return [
+    card(K('Live poll'), 'Which emotion feels hardest to manage?', 'Turn & talk for 60 seconds. Then hands up, and tap one vote per hand.', Tally('emotions', ['Anger', 'Fear', 'Frustration', 'Jealousy', 'Embarrassment'])),
+    breathe(), matchup(),
+    card(K('Team challenge timer'), 'Team Scenario Challenge', 'Name the emotion. Choose the most positive response. Be ready to explain why.', Timer([180, 240, 300], 240, 'Scenario timer').el),
+  ];
+}
+function i4() {
+  const inL = ListBuilder('in', 'IN: how I like to be treated…', []), outL = ListBuilder('out', 'OUT: how I don’t like to be treated…', []);
+  return [
+    card(K('Think · pair · share', { wide: true }), 'The In & Out list', 'Think 30 seconds, pair 1 minute, share 90 seconds. Type each idea into its column; it stays up all lesson.', h('div', { class: 'cols2' }, h('div', { class: 'col' }, h('h4', {}, 'IN'), inL.el), h('div', { class: 'col' }, h('h4', {}, 'OUT'), outL.el))),
+    card(K('Code of Conduct'), 'Our top Code of Conduct words', 'Each student votes for the word our class needs most this week.', Tally('code', ['Respect', 'Empathy', 'Compassion', 'Kindness', 'Fairness', 'Honesty'])),
+    card(K('Story time'), 'Include or exclude?', 'While the story is read, tap each time you notice someone being included or left out.', Tally('story', ['Included', 'Excluded'])),
+    card(K('Group activity timer'), 'Build-a-Plan together', 'What’s happening? What would WE want? Three positive action steps. Which Code of Conduct word does it show?', Timer([180, 240, 300], 240, 'Build-a-Plan timer').el),
+  ];
+}
+function rumor() {
+  const fixed = ['On Saturday, my cousin’s three-legged dog won second prize at the county fair for catching a frisbee in a thunderstorm.', 'On Saturday my cousin’s three-legged dog won a prize at the fair for catching a frisbee in a storm.', 'My cousin’s dog has three legs and won the fair for catching frisbees in a storm.', 'My cousin’s dog lost a leg in a storm at the fair.', 'I heard a dog at the fair got hit by lightning and lost a leg!', 'Lightning hit the county fair and hurt a bunch of dogs!', 'Everyone’s saying the fair got struck by lightning and it’s closed forever.'];
+  const swaps = { small: 'huge', said: 'screamed', some: 'everyone', a: 'the', one: 'all', maybe: 'definitely', tripped: 'fell flat', laughed: 'cried', friend: 'ex-friend', late: 'never', little: 'massive', once: 'every day', might: 'did', hurt: 'injured', lost: 'got kicked out of', saw: 'caught', talked: 'fought', test: 'every test', class: 'whole school' };
+  const prefixes = ['I heard ', 'Someone said ', 'Apparently ', 'Everyone knows ', 'It might be true that '];
+  const mutate = (s, i) => { let w = s.replace(/^(I heard |Someone said |Apparently |Everyone knows |It might be true that )/, '').split(' '); if (w.length > 6 && i % 2) w.splice(1 + (i * 7) % (w.length - 2), 1); w = w.map((x, j) => { const k = x.toLowerCase().replace(/[^a-z]/g, ''); return swaps[k] && (j + i) % 2 === 0 ? x.replace(new RegExp(k, 'i'), swaps[k]) : x; }); let out = w.join(' '); if (i % 3 === 2) out = out.replace(/[.!]?$/, '!'); return prefixes[i % prefixes.length] + out.charAt(0).toLowerCase() + out.slice(1); };
+  let chain = [fixed[0]], custom = false;
+  const ol = h('ol', { class: 'chain' });
+  const draw = () => ol.replaceChildren(...chain.map(t => h('li', {}, t)));
+  const inp = h('input', { type: 'text', id: 'rumor-msg', placeholder: 'Or type your own silly message (never about a real person)…', 'aria-label': 'Custom message' });
+  draw();
+  return card(K('Live experiment', { wide: true }), 'Rumor Telephone', 'Watch a message change a little at every pass. Nobody is TRYING to change it. Now imagine it’s about a real person.',
+    h('div', { class: 'row' }, inp, h('button', { class: 'btn', onclick() { const v = inp.value.trim(); if (v) { chain = [v]; custom = true; draw(); } } }, 'Use my message')),
+    h('div', { class: 'row' }, h('button', { class: 'btn acc', onclick() { if (chain.length > 8) return; const n = chain.length; chain.push(custom ? mutate(chain[n - 1], n) : (fixed[n] || mutate(chain[n - 1], n))); draw(); } }, 'Pass it on ▶'), h('button', { class: 'btn', onclick() { chain = [chain[0]]; draw(); } }, 'Start over'), h('button', { class: 'btn', onclick() { chain = [fixed[0]]; custom = false; draw(); } }, 'Use the Prep Kit message')), ol);
+}
+function i5() {
+  return [
+    card(K('Game · point fast'), 'Truth… or excuse?', 'Read the line. Everyone points LEFT for truth, RIGHT for excuse. Then flip.', Flips([{ q: '“I didn’t finish because the teacher didn’t explain it.”', a: 'EXCUSE', tone: 'bad' }, { q: '“I didn’t finish because I played games instead.”', a: 'TRUTH', tone: 'good' }, { q: '“I would have made the team, but the coach doesn’t like me.”', a: 'EXCUSE', tone: 'bad' }, { q: '“I was rude to my sister because I was in a bad mood. I’ll apologize.”', a: 'TRUTH', tone: 'good' }, { q: '“Everyone else was laughing, so it’s not my fault.”', a: 'EXCUSE', tone: 'bad', note: 'That’s blaming others.' }, { q: '“I studied… well, I opened the book and watched TV.”', a: 'EXCUSE', tone: 'bad', note: 'The only person we fool is ourselves.' }])),
+    card(K('Quick game'), 'Who said it: Pat or Ned?', 'Point LEFT for Ned, RIGHT for Pat. Then flip.', Flips([{ q: '“I said I’d finish my part tonight, so I’m doing it.”', a: 'POSITIVE PAT', tone: 'good', note: 'Does what they say.' }, { q: '“It’s not my fault. The teacher never reminded us.”', a: 'NEGATIVE NED', tone: 'bad', note: 'Blames others.' }, { q: '“I messed up. I’ll fix it.”', a: 'POSITIVE PAT', tone: 'good', note: 'Admits mistakes.' }, { q: '“I studied… well, I opened the book.”', a: 'NEGATIVE NED', tone: 'bad', note: 'Not honest about effort.' }])),
+    rumor(),
+    card(K('Game show', { wide: true }), 'Own It or Pass It?', 'Desks raise paddles on “3-2-1!”. Flip a card to hear what OWNING IT sounds like. Score honest, well-explained answers.', Flips([{ q: 'You told your friend you’d save them a seat at lunch. You forgot.', a: '“Sorry, I forgot. I’ll save you one tomorrow.”', lab: 'Round 1' }, { q: 'You didn’t study, got a low grade, and blamed the teacher.', a: 'Be honest about effort. No excuses.', lab: 'Round 2' }, { q: 'You laughed at a mean meme about a classmate.', a: 'Admit it. Apologize. Stop sharing it.', lab: 'Round 3' }, { q: 'You broke your sibling’s headphones. Nobody saw.', a: 'Tell them. Offer to fix or replace.', lab: 'Round 4' }, { q: 'You repeated a rumor and now it’s everywhere.', a: 'Stop it. Challenge it. Apologize.', lab: 'Round 5' }, { q: 'You missed the last shot. A teammate is blamed.', a: '“That was my shot.”', lab: 'Round 6' }], { blab: 'Owning it sounds like…' }), Scoreboard('ownit')),
+  ];
+}
+function quiz() {
+  const qs = [[1, 'Philosophy', 'Finish it: “You feel good about yourself when you do positive actions, and there is a positive way to do ______.”', 'EVERYTHING'], [1, 'TAF Circle', 'Name the 3 parts of the circle.', 'THOUGHTS · ACTIONS · FEELINGS ABOUT SELF'], [2, 'Body & mind', 'Name two physical positive actions and one intellectual one.', 'Exercise · keeping clean · staying safe / learning · problem solving'], [3, 'Managing', 'Managing fear, anger, and jealousy: what is this set of behaviors called?', 'MANAGING OURSELVES'], [4, 'Getting along', 'Say the Golden Rule.', 'TREAT OTHERS THE WAY YOU LIKE TO BE TREATED'], [5, 'Honesty', 'Name the Big Three.', 'DO WHAT YOU SAY · ADMIT MISTAKES · REFUSE TO BLAME'], [6, 'Bonus', 'Who breaks the bullying circle?', 'THE DEFENDER'], [4, 'Bonus', 'Name three of the six Code of Conduct words.', 'Respect · empathy · compassion · kindness · fairness · honesty']];
+  const done = new Set(); const qb = h('div', { class: 'qbox' }, h('span', { class: 'example', style: 'color:#bbb' }, 'Pick a tile'), h('div', { class: 'q' }, 'Desks huddle for 10 seconds, then one reporter answers.'));
+  const board = h('div', { class: 'board' });
+  const col = i => getComputedStyle(document.documentElement).getPropertyValue('--i' + i).trim();
+  const draw = () => board.replaceChildren(...qs.map(([is, cat], i) => h('button', { class: 'tile' + (done.has(i) ? ' done' : ''), style: `background:${col(is)};color:${is === 2 ? '#141312' : '#fff'}`, onclick() { done.add(i); draw(); const a = h('div', { class: 'a', hidden: true }, qs[i][3]); qb.replaceChildren(h('span', { class: 'example', style: 'color:#bbb' }, `${cat} · Issue 0${is}`), h('div', { class: 'q' }, qs[i][2]), h('div', { class: 'row' }, h('button', { class: 'btn acc', onclick() { a.hidden = false; } }, 'Reveal answer')), a); } }, h('span', { class: 'k' }, cat.toUpperCase()), h('span', { class: 'num' }, i + 1))));
+  draw();
+  return card(K('Game show', { wide: true }), 'The Back-Issues Quiz', 'Pick a tile, read the question, huddle 10 seconds, answer, reveal. Score on the board below.', board, qb, Scoreboard('quiz'));
+}
+function relay() {
+  const st = ['The Science Fair', 'The Group Chat', 'The New Kid', 'The Broken Promise'];
+  let round = 0, left = 120, id = null;
+  const big = h('div', { class: 'pick' }, '2:00'), lab = h('div', { class: 'phase', style: 'font-size:clamp(26px,3.4vw,40px)' }, 'Go to your first station');
+  const tbl = h('table', { class: 'relay-map' });
+  const drawT = () => { tbl.replaceChildren(h('thead', {}, h('tr', {}, h('th', {}, 'Desk'), ...[1, 2, 3, 4].map(r => h('th', {}, 'Round ' + r)))), h('tbody', {}, [1, 2, 3, 4].map(d => h('tr', {}, h('td', {}, 'Desk ' + d), ...[0, 1, 2, 3].map(r => h('td', { class: r === round && id ? 'now' : '' }, `${((d - 1 + r) % 4) + 1} · ${st[(d - 1 + r) % 4]}`)))))); };
+  const draw = () => { big.textContent = fmt(left); drawT(); };
+  const tick = () => { left--; if (left <= 0) { chime(); const c = big.closest('.card'); c.classList.add('flash'); setTimeout(() => c.classList.remove('flash'), 3200); round++; if (round >= 4) { clearInterval(id); id = null; lab.textContent = 'Relay complete! Back to your seats.'; big.textContent = 'DONE'; btn.textContent = 'Start'; drawT(); return; } lab.textContent = `ROTATE! Round ${round + 1} of 4`; left = 120; } draw(); };
+  const btn = h('button', { class: 'btn acc', onclick() { if (id) { clearInterval(id); id = null; btn.textContent = 'Resume'; return; } if (round >= 4) { round = 0; left = 120; } lab.textContent = `Round ${round + 1} of 4`; btn.textContent = 'Pause'; id = setInterval(tick, 1000); draw(); } }, 'Start');
+  draw();
+  return card(K('Team activity', { wide: true }), 'Choices & Consequences Relay', 'Four stations, two minutes each. At each one: the most positive choice, and the likely outcome. Rotate clockwise on the chime.', h('div', { class: 'row', style: 'gap:24px;align-items:flex-end' }, big, h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, lab, h('div', { class: 'row' }, btn, h('button', { class: 'btn', onclick() { clearInterval(id); id = null; round = 0; left = 120; lab.textContent = 'Go to your first station'; btn.textContent = 'Start'; draw(); } }, 'Reset')))), h('div', { class: 'tablewrap' }, tbl));
+}
+function i6() {
+  return [quiz(), relay(),
+    card(K('Bullying check'), 'Is bullying ever a positive action?', 'Thumbs first, then tap to count.', Tally('check', ['Yes', 'No, never'], { allowAdd: false })),
+    card(K('Press Room timer'), 'Where I’m Headed', 'One positive action from each unit, turned into a goal. Work quietly. Be honest with yourself.', Timer([300, 360], 360, 'Goals timer').el)];
+}
+function tools() {
+  const names = ListBuilder('names', 'Add a Desk or reporter name…', ['Desk 1', 'Desk 2', 'Desk 3', 'Desk 4']);
+  const out = h('div', { class: 'pick', 'aria-live': 'polite' }, '—');
+  return [
+    card(K('Timer', { screen: true }), 'Countdown timer', 'Chimes at zero (turn the speakers on).', Timer([60, 90, 120, 180, 240, 300, 360], 180, 'Countdown timer').el),
+    card(K('Picker', { screen: true }), 'Who’s up?', 'Pick a Desk or reporter at random.', out, h('div', { class: 'row' }, h('button', { class: 'btn acc', onclick() { const n = names.get(); if (!n.length) return; let k = 0; const spin = setInterval(() => { out.textContent = n[Math.floor(Math.random() * n.length)]; if (++k > 12) clearInterval(spin); }, 70); } }, 'Pick')), names.el),
+    card(K('Scoreboard', { screen: true, wide: true }), 'Desk scoreboard', 'For Swap It!, the quiz, or any game. Scores stay on this computer until you reset them.', Scoreboard('general')),
+  ];
+}
+
+/* ---------- shell ---------- */
+const tabs = $('#tabs'), view = $('#view');
+const sw = n => n === 0 ? 'var(--ink)' : `var(--i${n})`;
+function show(no) {
+  const I = ISSUES.find(x => x.no === no) || ISSUES[1];
+  document.body.dataset.issue = I.no;
+  [...tabs.children].forEach(b => b.setAttribute('aria-selected', String(+b.dataset.no === I.no)));
+  view.replaceChildren(h('div', { class: 'issue-head' }, h('div', { class: 'issue-no' }, I.no ? I.short : '★'), h('h2', { class: 'issue-title' }, I.title), h('div', { class: 'issue-unit' }, I.unit)), h('div', { class: 'grid' }, I.build()));
+  try { history.replaceState(null, '', '#' + (I.no ? 'issue' + I.no : 'tools')); } catch {}
+  store.set('tab', I.no);
+}
+ISSUES.slice(1).concat(ISSUES[0]).forEach(I => tabs.append(h('button', { role: 'tab', 'data-no': I.no, onclick() { show(I.no); } }, h('span', { class: 'sw', style: `background:${sw(I.no)}` }), I.no ? 'ISSUE ' + I.short : 'TOOLS')));
+const m = (location.hash || '').match(/issue(\d)|tools/);
+show(m ? (m[1] ? +m[1] : 0) : store.get('tab', 1));
+})();
+</script>
+
+</body></html>
