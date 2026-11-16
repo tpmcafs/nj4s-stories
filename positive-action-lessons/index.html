@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Positive Action · All Lessons</title>
+<link rel="stylesheet" href="engine.css">
+<style>
+#hub{position:fixed;inset:0;z-index:1;display:flex;flex-direction:column;padding:4.2vh 4vw 3vh}
+.hub-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:3.4vh;animation:groupIn .7s var(--ease) both}
+.hub-head h1{font-weight:300;font-size:clamp(34px,4.4vw,72px);line-height:1}
+.hub-head p{font-size:clamp(15px,1.4vw,22px);opacity:.85;margin-top:8px}
+.hub-tools{display:flex;align-items:center;gap:14px}
+.hub-time{font-weight:300;font-size:clamp(20px,2vw,30px)}
+.hub-tools button{width:48px;height:48px;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+.hub-tools button:hover{background:rgba(255,255,255,.18)}
+.hub-tools svg{width:26px;height:26px}
+.lgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:clamp(8px,.8vw,14px)}
+.lt{position:relative;overflow:hidden;background:var(--c);color:#fff;text-align:left;perspective:1200px;animation:ltIn .8s cubic-bezier(.3,.7,.2,1) both;transform-style:preserve-3d;transition:transform .25s var(--ease)}
+.lt:nth-child(1){grid-column:span 2}
+.lt:nth-child(2){animation-delay:.07s}.lt:nth-child(3){animation-delay:.14s}.lt:nth-child(4){animation-delay:.21s}.lt:nth-child(5){animation-delay:.28s}.lt:nth-child(6){animation-delay:.35s}.lt:nth-child(7){animation-delay:.42s}
+@keyframes ltIn{from{opacity:0;transform:perspective(1200px) rotateY(-70deg) translateX(60px)}to{opacity:1;transform:none}}
+.lt .ph{position:absolute;inset:0;background-size:cover;background-position:center 35%;animation:kb 18s ease-in-out infinite alternate;transition:opacity .9s}
+.lt .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.72))}
+.lt .info{position:absolute;left:0;right:0;bottom:0;padding:clamp(14px,1.6vw,26px)}
+.lt .num{display:inline-block;background:var(--c);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:clamp(12px,1vw,16px);padding:5px 10px;margin-bottom:10px}
+.lt .tt{font-weight:300;font-size:clamp(22px,2.2vw,40px);line-height:1.1;max-width:22ch}
+.lt:nth-child(1) .tt{font-size:clamp(28px,3vw,54px)}
+.lt .pbar{height:6px;background:rgba(255,255,255,.25);margin-top:12px;overflow:hidden}
+.lt .pbar i{display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0);transition:transform 1s var(--ease) .6s}
+.lt .pn{font-size:clamp(12px,1vw,16px);opacity:.85;margin-top:6px}
+.lt .back{position:absolute;inset:0;background:var(--c);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(16px,2vw,32px);transform:none;transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.lt .back .bp{height:5px;background:rgba(255,255,255,.25);margin-top:14px;overflow:hidden}.lt .back .bp i{display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0);transition:transform 1s var(--ease) .6s}
+.lt .back .bk{font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:clamp(12px,1vw,16px);opacity:.85;margin-bottom:auto}
+.lt .back .bn{font-weight:200;font-size:clamp(64px,7vw,140px);line-height:.9}
+.lt .back .bt{font-weight:300;font-size:clamp(20px,2vw,34px);line-height:1.15;margin-top:1vh}
+.lt.open .back{transform:translateY(-100%)}
+.lt .done{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--c);display:none;place-items:center}
+.lt .done svg{width:60%;height:60%}
+.lt.complete .done{display:grid}
+.lt.now{box-shadow:inset 0 0 0 4px #fff}
+.lt:active{transform:scale(.97)}
+.util{display:grid;grid-template-rows:1fr 1fr;gap:clamp(8px,.8vw,14px)}
+.ck{background:#2B2B2B;padding:clamp(14px,1.6vw,24px);display:flex;flex-direction:column;justify-content:flex-end}
+.ck .d1{font-size:clamp(14px,1.2vw,20px);font-weight:600}
+.ck .d2{font-weight:200;font-size:clamp(50px,5.4vw,96px);line-height:1}
+.ck .d3{font-size:clamp(14px,1.2vw,20px);opacity:.85}
+.cont{background:#0F6CBD;padding:clamp(14px,1.6vw,24px);display:flex;flex-direction:column;justify-content:flex-end;text-align:left}
+.cont svg{width:clamp(40px,4vw,64px);height:auto;margin-bottom:auto;animation:nudgeX 1.6s ease-in-out infinite}
+.cont b{font-size:clamp(18px,1.6vw,28px);font-weight:400}
+.cont span{font-size:clamp(14px,1.1vw,18px);opacity:.85}
+@keyframes nudgeX{0%,100%{transform:translateX(-6px)}50%{transform:translateX(10px)}}
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:90;transition:opacity .25s}
+@media (max-width:900px),(orientation:portrait){#hub{overflow:auto}.lgrid{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:minmax(28vh,auto)}.lt:nth-child(1){grid-column:span 2}.util{grid-column:span 2;grid-template-columns:1fr 1fr;grid-template-rows:none}}
+#splash{z-index:80;flex-direction:column;gap:2vh;text-align:center;padding:4vw}
+#splash.go{display:flex;align-items:center;justify-content:center}
+#splash .sn{font-weight:200;font-size:clamp(90px,14vw,240px);line-height:.9;opacity:0}
+#splash .st{font-weight:300;font-size:clamp(26px,3.2vw,56px);max-width:22ch;line-height:1.1;opacity:0}
+#lessonFrame{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:85;display:block;visibility:hidden;background:transparent}
+#lessonFrame.on{visibility:visible}
+.lt .pbar,.lt .back .bp{height:6px;border-radius:999px;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.lt .pbar i,.lt .back .bp i{border-radius:999px;background:rgba(255,255,255,.7);box-shadow:0 0 8px rgba(255,255,255,.5)}
+</style>
+</head>
+<body class="theme-l6">
+<div class="wall"></div>
+<div id="lock" role="button" tabindex="0" aria-label="Tap or press any key to start">
+  <div><div class="lock-clock" id="lockClock">--:--</div><div class="lock-date" id="lockDate"></div></div>
+  <div class="lock-title">
+    <div class="lock-kicker">Positive Action</div>
+    <div class="lock-h">Lessons 1–6</div>
+    <div class="lock-sub">Creating a Positive, Bully-Free School</div>
+    <div class="lock-hint"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Tap to begin in full screen</div>
+  </div>
+</div>
+<main id="hub" aria-label="All lessons">
+  <header class="hub-head"><div><h1>Positive Action</h1><p>Choose a lesson</p></div>
+    <div class="hub-tools"><span class="hub-time" id="hubTime"></span><button id="btnFull" aria-label="Full screen" title="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="btnLock" aria-label="Lock screen" title="Lock screen"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="5" y="11" width="14" height="9"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button></div></header>
+  <div class="lgrid" id="lgrid"></div>
+</main>
+<div id="fade"></div><div id="splash" aria-hidden="true"></div>
+<script>
+const LESSONS=[
+ {n:1,t:'DOING GOOD, FEELING GOOD',s:'Creating a Positive, Bully-Free School',c:'#C2185B',N:18,img:'l1/img/t1.webp'},
+ {n:2,t:'Positive Actions, Strong Minds, Safe Circles',s:'',c:'#107C10',N:13,img:'l2/img/t1.webp'},
+ {n:3,t:'Managing Emotions',s:'Session 3',c:'#00806B',N:20,img:'l3/img/t1.webp'},
+ {n:4,t:'How I Want to Be Treated',s:'Getting Along With Others',c:'#C2364A',N:22,img:'l4/img/t1.webp'},
+ {n:5,t:'Telling Yourself the Truth',s:'Improving My Relationship With Myself',c:'#C2571A',N:18,img:'l5/img/t1.webp'},
+ {n:6,t:'Getting Yourself Pointed in a Positive Direction',s:'Growing, Setting Goals, and Staying Out of the Bullying Circle',c:'#0078D4',N:26,img:'l6/img/t1.webp'}
+];
+const $=q=>document.querySelector(q);
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const seen=n=>{try{return JSON.parse(localStorage.getItem('pa-visited-L'+n)||'[]').length}catch(e){return 0}};
+const getLast=()=>{try{return +localStorage.getItem('pa-last')||0}catch(e){return 0}};
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+const lock=$('#lock'),grid=$('#lgrid'),sp=$('#splash');
+/* lessons open inside this page (in a frame) so full screen stays on */
+const frame=document.createElement('iframe');frame.id='lessonFrame';frame.title='Lesson';frame.setAttribute('allow','fullscreen');frame.setAttribute('allowfullscreen','');document.body.appendChild(frame);
+let opening=false;
+function openLesson(n){const L=LESSONS[n-1];opening=true;
+  frame.onload=()=>{if(!opening)return;opening=false;frame.classList.add('on');try{frame.contentWindow.focus()}catch(e){}
+    setTimeout(()=>{sp.classList.remove('go');sp.getAnimations().forEach(a=>a.cancel());$('#fade').style.opacity=0},80)};
+  frame.src=`l${n}/index.html?start&embed&fx=${encodeURIComponent(L.c)}`}
+function flipAway(c){if(RM.matches)return;sp.style.cssText=`--c:${c};left:0;top:0;width:100vw;height:100vh;transition:none`;sp.innerHTML='';sp.classList.add('go');
+  setTimeout(()=>{sp.animate([{transform:'perspective(1400px) rotateY(0)',opacity:1},{transform:'perspective(1400px) rotateY(90deg)',opacity:.6}],{duration:420,easing:'cubic-bezier(.5,0,.75,0)',fill:'forwards'}).onfinish=()=>{sp.classList.remove('go');sp.getAnimations().forEach(a=>a.cancel())}},120)}
+function closeLesson(c){frame.classList.remove('on');opening=false;build();flipAway(c||'#0078D4');setTimeout(()=>{if(!frame.classList.contains('on'))frame.src='about:blank'},300);
+  setTimeout(()=>{const t=$('.lt.now')||$('.lt');t&&t.focus({preventScroll:true})},500)}
+const go=(n,from)=>{const L=LESSONS[n-1];
+  if(RM.matches||!from){$('#fade').style.opacity=1;setTimeout(()=>openLesson(n),230);return}
+  const r=from.getBoundingClientRect();
+  sp.style.cssText=`--c:${L.c};left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;transform:perspective(1000px) rotateY(-90deg);transition:none`;
+  sp.innerHTML=`<div class="sn">${L.n}</div><div class="st">${L.t}</div>`;sp.classList.add('go');void sp.offsetWidth;
+  from.animate([{transform:'perspective(1000px) rotateY(0)'},{transform:'perspective(1000px) rotateY(90deg)'},{transform:'perspective(1000px) rotateY(0)'}],{duration:1100,easing:'ease-in-out'});
+  setTimeout(()=>{sp.style.transition='left .42s var(--ease),top .42s var(--ease),width .42s var(--ease),height .42s var(--ease),transform .3s ease-out';sp.style.transform='none';
+    sp.style.left='0px';sp.style.top='0px';sp.style.width=innerWidth+'px';sp.style.height=innerHeight+'px';
+    sp.querySelectorAll('div').forEach((d,k)=>d.animate([{opacity:0,transform:'translateY(24px)'},{opacity:1,transform:'none'}],{duration:320,delay:160+k*80,fill:'forwards',easing:'ease-out'}))},200);
+  setTimeout(()=>openLesson(n),700)};
+let tiles=[],openQ=[];
+const openOne=t=>{if(!t||t.classList.contains('open'))return;t.classList.add('open');openQ.push(t);while(openQ.length>2)openQ.shift().classList.remove('open')};
+function build(){const last=getLast();grid.innerHTML='';openQ=[];
+  LESSONS.forEach(L=>{const v=Math.min(seen(L.n),L.N);const b=document.createElement('button');b.className='lt'+(v>=L.N?' complete':'')+(L.n===last?' now':'');b.style.setProperty('--c',L.c);
+    b.setAttribute('aria-label',`Lesson ${L.n}: ${L.t}. ${v} of ${L.N} slides seen`);
+    b.innerHTML=`<div class="ph" style="background-image:url(${L.img})"></div><div class="shade"></div><div class="info"><span class="num">Lesson ${L.n}</span><div class="tt">${L.t}</div><div class="pbar"><i data-p="${v/L.N}"></i></div><div class="pn">${v} / ${L.N}</div></div><div class="back"><div class="bk">Lesson ${L.n}</div><div class="bn">${L.n}</div><div class="bt">${L.t}</div><div class="bp"><i data-p="${v/L.N}"></i></div></div><span class="done">${CHECK}</span>`;
+    b.addEventListener('click',()=>go(L.n,b));grid.appendChild(b)});
+  const util=document.createElement('div');util.className='util';const nxt=last||1;
+  util.innerHTML=`<div class="ck" role="img" aria-label="Today"><div class="d1" id="d1"></div><div class="d2" id="d2"></div><div class="d3" id="d3"></div></div><button class="cont" id="cont"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24h30M28 14l10 10-10 10"/></svg><b>${last?'Continue':'Start'}</b><span>Lesson ${nxt}</span></button>`;
+  grid.appendChild(util);$('#cont').addEventListener('click',e=>go(nxt,e.currentTarget));
+  requestAnimationFrame(()=>setTimeout(()=>document.querySelectorAll('.pbar i,.bp i').forEach(i=>i.style.transform=`scaleX(${i.dataset.p})`),50));
+  tiles=[...document.querySelectorAll('.lt')];openOne(tiles[0]);
+  tiles.forEach(t=>{t.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')openOne(t)});
+    t.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=t.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(900px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`});t.addEventListener('pointerleave',()=>t.style.transform='')});
+  clock()}
+setInterval(()=>{if(RM.matches||document.hidden||!lock.classList.contains('gone')||frame.classList.contains('on'))return;const closed=tiles.filter(t=>!t.classList.contains('open'));openOne(closed[Math.floor(Math.random()*closed.length)])},3000);
+function clock(){const d=new Date();const tm=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});$('#lockClock').textContent=tm.replace(/\s?(AM|PM)$/i,'');$('#lockDate').textContent=d.toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});$('#hubTime').textContent=tm;
+ if($('#d1')){$('#d1').textContent=d.toLocaleDateString([],{weekday:'long'});$('#d2').textContent=d.getDate();$('#d3').textContent=d.toLocaleDateString([],{month:'long',year:'numeric'})}}
+build();setInterval(clock,1000);
+const toggleFull=()=>{try{const p=!document.fullscreenElement?document.documentElement.requestFullscreen():document.exitFullscreen();p&&p.catch&&p.catch(()=>{})}catch(e){}};
+addEventListener('message',e=>{const d=e.data;if(!d||typeof d!=='object')return;if(d.pa==='menu')closeLesson(d.c);if(d.pa==='full')toggleFull()});
+const goFull=()=>{if(document.fullscreenElement)return;try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});p&&p.catch&&p.catch(()=>{})}catch(e){}};
+const unlock=(gesture)=>{if(gesture)goFull();lock.classList.add('gone');setTimeout(()=>{const t=document.querySelector('.lt');t&&t.focus({preventScroll:true})},500)};
+lock.addEventListener('click',()=>unlock(true));
+let sy=null;lock.addEventListener('pointerdown',e=>{sy=e.clientY});lock.addEventListener('pointerup',e=>{if(sy!==null&&sy-e.clientY>60)unlock(true);sy=null});
+addEventListener('keydown',e=>{if(frame.classList.contains('on'))return;if(!lock.classList.contains('gone')){unlock(true);return}const k=+e.key;if(k>=1&&k<=6)go(k,tiles[k-1]);if(e.key==='Escape')lock.classList.remove('gone');if(e.key==='f'||e.key==='F')toggleFull()});
+$('#btnLock').addEventListener('click',()=>lock.classList.remove('gone'));
+$('#btnFull').addEventListener('click',toggleFull);
+if(/[?&]menu\b/.test(location.search)){lock.style.transition='none';unlock()}
+{const m=location.search.match(/[?&]fx=([^&]+)/);if(m)flipAway(decodeURIComponent(m[1]))}
+lock.focus();
+</script>
+</body>
+</html>
