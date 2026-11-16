@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson</title>
+<link rel="stylesheet" href="../engine.css">
+
+</head>
+<body>
+<div class="wall"></div>
+
+<!-- LOCK SCREEN -->
+<div id="lock" role="button" tabindex="0" aria-label="Tap or press any key to start">
+  <div>
+    <div class="lock-clock" id="lockClock">--:--</div>
+    <div class="lock-date" id="lockDate"></div>
+  </div>
+  <div class="lock-title">
+    <div class="lock-kicker" id="lockKicker"></div>
+    <div class="lock-h" id="lockH"></div>
+    <div class="lock-sub" id="lockSub"></div>
+    <div class="lock-hint"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Swipe up or tap to begin</div>
+  </div>
+  <img class="lock-sign" id="lockImg" alt="">
+</div>
+
+<!-- START SCREEN -->
+<div id="start" aria-hidden="true">
+  <header class="start-head">
+    <div class="start-title">
+      <h1 id="startH"></h1>
+      <p id="startP"></p>
+    </div>
+    <div class="start-tools">
+      <span class="start-time" id="startClock"></span>
+      <button class="tool" id="btnLive" aria-pressed="false" title="Pause live tiles" aria-label="Pause live tiles"></button>
+      <button class="tool" id="btnOverview" title="Overview (O)" aria-label="Overview of all sections"></button>
+      <button class="tool" id="btnFull" title="Full screen (F)" aria-label="Full screen"></button>
+      <button class="tool" id="btnLessons" title="All lessons" aria-label="All lessons"></button>
+      <button class="tool" id="btnLock" title="Lock screen" aria-label="Back to lock screen"></button>
+    </div>
+  </header>
+  <div class="scroller" id="scroller"><div class="groups" id="groups"></div></div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="overview" role="dialog" aria-label="Overview">
+  <h2>Jump to a section</h2>
+  <div class="ov-grid" id="ovGrid"></div>
+</div>
+
+<!-- APP VIEW -->
+<div id="app" role="region" aria-label="Slide">
+  <div class="bar">
+    <button class="icon-btn" id="btnBack" aria-label="Back" title="Back (Esc)"></button>
+    <div class="crumb" id="crumb"></div>
+    <span class="count" id="count"></span>
+    <button class="icon-btn" id="btnAppOverview" aria-label="Overview" title="Overview (O)"></button>
+    <button class="icon-btn" id="btnHome" aria-label="Start screen" title="Start (Home)"></button>
+  </div>
+  <div class="stage" id="stage"></div>
+  <div class="foot">
+    <button class="navbtn" id="btnPrev" aria-label="Previous slide"></button>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <button class="navbtn" id="btnNext" aria-label="Next"></button>
+  </div>
+</div>
+<div id="splash"></div>
+
+<script src="../kit.js"></script><script src="lesson.js"></script>
+<script src="../engine.js"></script>
+</body>
+</html>
