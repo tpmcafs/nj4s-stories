@@ -1,0 +1,71 @@
+/* Steps to Respect · Lesson 2: Conflict Between Friends — slide text and notes verbatim. Group names on the Start screen are added labels. */
+(function(){
+const {ico}=STR,K=STR.K,N=o=>K.N(2,o);
+const LESSONS=[['FRIENDSHIP','Lesson 1'],['CONFLICTS BETWEEN FRIENDS','Lesson 2'],['ARE YOU MAD AT ME?','Lesson 3'],['CONFLICT AND BULLYING','Lesson 4'],['BODIES AND BULLYING','Lesson 5'],['REFUSING AND REPORTING','Lesson 6'],['BYSTANDERS CAN HELP','Lesson 7'],['TAKING RESPONSIBILITY','Lesson 8'],['MAKING IT HAPPEN','Lesson 9'],['SAFE, CARING, RESPECTFUL SCHOOL','Lesson 10']];
+const stand=(n,o,text,art,k)=>({n,t:'Stand up if..',title:'STAND UP IF.. '+text,k,icon:'run',faces:[{icon:'run'},{html:text,cls:'sm'}],
+ html:()=>K.standup({lead:o===8?'STAND UP IF...':'STAND UP IF..',text,art}),notes:N(o)});
+const fill=(word)=>`<div class="fillin ent">“I feel <span class="blank">${word?`<b class="typed">${word}</b>`:''}</span>“.</div>`;
+const GI=[['ASSUME','that your friends and the people around you have good intentions','eye','sky'],['CHECK','intentions when you are unsure about something','check','coral'],['COMMUNICATE','to build connection and to make your friendships last','talk','violet'],['APOLOGIZE','if you accidentally hurt someone and to show your good intentions','sorry','lime']];
+STR.lesson({num:2,full:'LESSON 2: CONFLICT BETWEEN FRIENDS',hero:'l2-hero.jpg',k:'coral',
+ keywords:[{w:'Conflict',n:17},{w:'Anger',n:15},{w:'Self-talk',n:23},{w:'Get calm',n:24},{w:'Jack and Rob',n:19},{w:'Worksheets',n:28}],
+ groups:[{name:'Start here',k:'sky',n:[1,2,3,4,5,6,7,8]},{name:'Feeling angry',k:'coral',n:[9,10,11,12,13,14,15,16]},{name:'Conflict',k:'violet',n:[17,18,19,20,21,22,23,24]},{name:'Working it out',k:'teal',n:[25,26,27,28,29,30]}],
+ slides:[
+ {n:1,t:'Steps to Respect',title:'LESSON 2: CONFLICT BETWEEN FRIENDS',k:'sky',icon:'book',sz:'l',faces:[{photo:'l2-hero.jpg'},{html:'Steps to<br>Respect',cls:'xl'},{html:'LESSON 2: CONFLICT BETWEEN FRIENDS'}],
+  html:()=>K.title({kick:'LESSON 2: CONFLICT BETWEEN FRIENDS',img:'l2-hero.jpg'}),notes:N(1)},
+ {n:2,t:'Icebreaker',title:'STAND UP / SIT DOWN',k:'sun',icon:'run',faces:[{icon:'run'},{html:'STAND UP<br>SIT DOWN'}],
+  html:()=>`<div class="wrap" style="align-items:center">${K.art?'':''}<div class="artbox ent" style="flex:.55;align-self:stretch"><img src="img/l2-kid-a.png" alt=""></div>
+   <div class="col solid sweep ent" style="flex:1.2;align-self:stretch;justify-content:center;align-items:center;text-align:center;gap:22px;padding:50px"><div style="font-size:112px;font-weight:800;line-height:.95;letter-spacing:-.01em">STAND UP<br>SIT DOWN</div><div class="kick" style="font-size:24px">ICEBREAKER</div></div>
+   <div class="artbox ent" style="flex:.55;align-self:stretch"><img src="img/l2-kid-b.png" alt=""></div></div>`,notes:N(2)},
+ {n:3,t:'Instruction',title:'INSTRUCTION',k:'teal',icon:'list',faces:[{icon:'list'},{html:'STAND UP IF YOUR ANSWER IS YES',cls:'sm'}],
+  html:()=>K.text({h:'INSTRUCTION',paras:['TO PLAY,'],cards:['STAND UP IF YOUR ANSWER IS YES,','AND SIT DOWN IF YOUR ANSWER IS NO.'],cardIcon:['run','check'],step:false,art:'l2-girl.png'}),notes:N(3)},
+ stand(4,4,'YOU ARE NEVER LATE FOR SCHOOL','l2-clock.png','coral'),
+ stand(5,5,'YOUR FAVORITE FOOD IS A HAMBURGER','l2-burger.png','pink'),
+ stand(6,6,'YOU HAVE MORE THAN TWO SIBLINGS','l2-siblings.png','violet'),
+ stand(7,7,'YOUR FAVORITE SUBJECT IN SCHOOL IS LANGUAGE ARTS','l2-reading.png','sky'),
+ stand(8,8,'YOU LIKE COMING TO SCHOOL','l2-school.png','lime'),
+ {n:9,t:'Class Objectives',k:'violet',icon:'cal',faces:[{icon:'cal'},...LESSONS.map(([t,n])=>({html:`${t}<br><span style="font-weight:400;font-size:12px">${n}</span>`,cls:'sm'}))],
+  html:()=>K.classObj({items:LESSONS,today:'Lesson 2'}),notes:N(9)},
+ {n:10,t:'Lesson 2 Objectives',k:'teal',icon:'list',faces:[{icon:'list'},{html:'Identify angry feelings'},{html:'Define conflict'}],
+  html:()=>K.lessonObj({tag:'Conflicts in Friendship',num:2,h:'Lesson 2 Objectives',kick:"WHAT WE'LL DISCUSS TODAY:",items:['Identify angry feelings','Define conflict','Apply emotion-management strategies, including self-talk, during a conflict','Identify a conflict from different perspectives','Generate and evaluate possible solutions to a problem']}),wire:pg=>K.wireChk(pg),notes:N(10)},
+ {n:11,t:'Raise your hand',title:'Raise your hand if you have ever felt angry.',k:'coral',icon:'hand',faces:[{icon:'hand'},{html:'Raise your hand if you have ever felt angry.',cls:'sm'}],
+  html:()=>`<div class="wrap" style="align-items:center;justify-content:center"><div class="col solid sweep ent" style="flex:1;align-self:stretch;justify-content:center;align-items:center;text-align:center;gap:34px;padding:60px">${ico('hand','bigico')}<div style="font-size:80px;font-weight:700;line-height:1.05;max-width:1100px">Raise your hand if you have ever felt angry.</div></div></div>`,notes:N(11)},
+ {n:12,t:'Think about feeling angry.',k:'coral',icon:'brain',faces:[{photo:'l2-anger.jpg'},{html:'HOW DOES YOUR BODY FEEL?'}],
+  html:()=>K.text({h:'Think about feeling angry.',ask:'HOW DOES YOUR BODY FEEL?',img:'l2-anger.jpg'}),notes:N(12)},
+ {n:13,t:'Is anger a bad thing?',k:'sun',icon:'question',faces:[{icon:'question'},{html:'SOMETIMES ANGER IS HELPFUL.'}],
+  html:()=>K.text({h:'Is anger a bad thing?',cards:['<span class="kick" style="display:block;margin-bottom:6px;color:inherit">SOMETIMES ANGER IS HELPFUL.</span>It lets us know when something isn’t right and needs to be changed.'],cardIcon:'bulb',icon:'question'}),notes:N(13)},
+ {n:14,t:'Think about angry people.',k:'violet',icon:'people',faces:[{icon:'people'},{html:'HOW DO PEOPLE SOMETIMES ACT WHEN THEY ARE ANGRY?',cls:'sm'}],
+  html:()=>K.text({h:'Think about angry people.',ask:'HOW DO PEOPLE SOMETIMES ACT WHEN THEY ARE ANGRY?',icon:'people'}),notes:N(14)},
+ {n:15,t:'Anger isn’t bad',k:'teal',icon:'heart',faces:[{icon:'heart'},{html:'How we act when we are angry is what matters.',cls:'sm'}],
+  html:()=>K.big({text:'Anger isn’t bad',sub:'<b>How we act when we are angry is what matters.</b><br><br>Angry behavior that hurts or disrespects people is not okay and has consequences.',size:84}),notes:N(15)},
+ {n:16,t:'Good Intentions',title:'LAST WEEK: Good Intentions',k:'sky',icon:'heart',faces:[{icon:'heart'},{html:'ASSUME · CHECK · COMMUNICATE · APOLOGIZE',cls:'sm'}],
+  html:()=>K.flips({h:'Good Intentions',kick:'LAST WEEK',cards:GI,ch:400}),notes:N(16)},
+ {n:17,t:'Conflict',k:'violet',icon:'chat2',faces:[{icon:'chat2'},{html:'A DISAGREEMENT THAT HAPPENS WHEN PEOPLE WANT DIFFERENT THINGS.',cls:'sm'}],
+  html:()=>K.def({word:'Conflict',defs:['A DISAGREEMENT THAT HAPPENS WHEN PEOPLE WANT DIFFERENT THINGS.'],ask:'WHO CAN TELL ME WHAT THIS MEANS?',icon:'chat2'}),notes:N(17)},
+ {n:18,t:'Conflict Defined',k:'violet',icon:'scale',faces:[{icon:'scale'},{html:'Both people have equal power'}],
+  html:()=>K.tiles({h:'<i>Conflict</i> Defined',items:[['Both people have equal power','scale','sky'],['All friendships have conflicts from time to time','group','coral'],['Not the same as a fight or argument','stop','violet'],['Can be handled respectfully or disrespectfully','hand','lime']]}),notes:N(18)},
+ {n:19,t:'Jack and Rob',k:'coral',icon:'people',sz:'w',faces:[{photo:'l2-jackrob.jpg'},{html:'Jack and Rob'}],
+  html:()=>`<div class="wrap" style="flex-direction:column;gap:20px"><div class="ent"><div class="h1">Jack and Rob</div></div><div class="scene ent"><div class="win acr"><div class="wt"><span>${ico('people')}</span><span>Photos · Jack and Rob</span><span class="sp"></span><span class="wb">${ico('min')}</span><span class="wb">${ico('max')}</span><span class="wb">${ico('x')}</span></div><div class="imgbox"><img src="img/l2-jackrob.jpg" alt="Two smiling boys with their arms around each other" style="width:960px;max-height:600px;object-fit:cover"></div></div></div></div>`,notes:N(19)},
+ {n:20,t:'Check Your Feelings',k:'sun',icon:'smile',faces:[{photo:'l2-feelings.png'},{html:'“I feel ______“.'}],
+  html:()=>K.text({h:'Check Your Feelings',kick:'MANAGING YOUR FEELINGS AND ACTIONS',paras:['For example)'],art:'l2-feelings.png',left:true})+'',wire:pg=>{STR.$('.col',pg).insertAdjacentHTML('beforeend',fill(''))},notes:N(20)},
+ {n:21,t:'Check Your Feelings',tile:'Check Your Feelings: angry',k:'sun',icon:'smile',faces:[{icon:'smile'},{html:'“I feel angry“.'}],
+  html:()=>K.text({h:'Check Your Feelings',kick:'MANAGING YOUR FEELINGS AND ACTIONS',paras:['For example)'],img:'l2-jackrob.jpg',left:true}),wire:pg=>{STR.$$('.col',pg).pop().insertAdjacentHTML('beforeend',fill('angry'))},notes:N(21)},
+ {n:22,t:'Decide What To Do',k:'teal',icon:'puzzle',faces:[{photo:'l2-signs.jpg'},{html:'“I need to get calm”'}],
+  html:()=>K.text({h:'Decide What To Do',kick:'MANAGING YOUR FEELINGS AND ACTIONS',paras:['For example)'],cards:['“I need to get calm”','“I’m going to argue back”'],cardIcon:['check','x'],img:'l2-signs.jpg',left:true}),notes:N(22)},
+ {n:23,t:'Decide What To Do',tile:'Self-talk',k:'teal',icon:'chat',faces:[{icon:'chat'},{html:'Self-talk helps you concentrate.'}],
+  html:()=>K.text({h:'Decide What To Do',kick:'MANAGING YOUR FEELINGS AND ACTIONS',paras:['For example)'],cards:['“I need to get calm”'],cardIcon:'chat',step:false,foot:'Self-talk helps you concentrate.',footIcon:'brain',art:'l2-cloud.png',left:true}),notes:N(23)},
+ {n:24,t:'Get calm',title:'WHAT YOU NEED TO DO TO GET CALM',k:'sky',icon:'leaf',faces:[{photo:'l2-calm.jpg'},{html:'CHILL OUT! RELAX! SLOW DOWN!'}],
+  html:()=>K.big({kick:'WHAT YOU NEED TO DO TO GET CALM',text:'Take three deep breaths or say a couple words to help you “get calm”',sub:'<span class="kick" style="color:inherit;font-size:22px">CHILL OUT! RELAX! SLOW DOWN!</span>',img:'l2-calm.jpg',size:50}),notes:N(24)},
+ {n:25,t:'Calming Down',k:'coral',icon:'play',faces:[{icon:'play'},{html:'WHAT TO DO IF YOU NEED TO GET CALM',cls:'sm'}],
+  html:()=>K.video({h:'Calming Down',kick:'WHAT TO DO IF YOU NEED TO GET CALM',url:'https://youtube.com/shorts/Kv_mnWQKUKE?si=VW_D4AO7qdKNZ0CL'}),notes:N(25)},
+ {n:26,t:'Conflicts in Friendship',k:'violet',icon:'group',faces:[{icon:'group'},{html:'JACK AND ROB ARE LIKE MANY FRIENDS',cls:'sm'}],
+  html:()=>K.text({h:'Conflicts in Friendship',kick:'JACK AND ROB ARE LIKE MANY FRIENDS',paras:['At times they both want different things.','Neither person has done anything wrong, but they must work together to resolve the conflict respectfully.'],ps:25,foot:'After you are calm, the most important step to take when you have conflict is the first one.',footIcon:'run',icon:'group'}),notes:N(26)},
+ {n:27,t:'What’s the Problem?',k:'coral',icon:'question',faces:[{icon:'question'},{html:'HOW CAN THE PROBLEM BE DESCRIBED RESPECTFULLY?',cls:'sm'}],
+  html:()=>K.text({h:'What’s the Problem?',kick:'HOW CAN THE PROBLEM BE DESCRIBED RESPECTFULLY?',paras:['Ask if both points of view are being shown. Does this give both perspectives?'],ps:25,cards:['“Let’s do what I want for a change.” -Rob'],cardIcon:'chat2',img:'l2-jackrob.jpg'}),notes:N(27)},
+ {n:28,t:'Activity: Worksheets',k:'sun',icon:'note',faces:[{icon:'note'},{html:'Work with partners',cls:'sm'}],
+  html:()=>K.text({h:'Activity: Worksheets',paras:['Identifying what both people want is a very important skill.','It is a fair way of dealing with conflicts.'],foot:'Work with partners to practice identifying problems in a respectful way.',footIcon:'people',icon:'note'}),notes:N(28)},
+ {n:29,t:'Thank You',k:'sun',icon:'sparkle',faces:[{photo:'l2-thanks.jpg'},{html:'ANY QUESTIONS?'}],
+  html:()=>K.thanks({img:'l2-thanks.jpg'}),enter:K.thanksEnter,notes:N(29)},
+ {n:30,t:'Role Play',k:'violet',icon:'chat2',faces:[{icon:'chat2'},{html:'Act out the scenario',cls:'sm'}],
+  html:()=>K.text({h:'Role Play',paras:['Identifying what both people want is a very important skill.','It is a fair way of dealing with conflicts.'],foot:'Act out the scenario and see if you can solve the problem respectfully.',footIcon:'chat2',icon:'chat2'}),notes:N(30)}
+ ]});
+})();
