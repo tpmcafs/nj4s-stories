@@ -2834,6 +2834,7 @@ button.boxpic{padding:0;display:block;top:330px}
 .skipact.gone{opacity:0;pointer-events:none}.skipact{transition:opacity .4s}
 .seqpill .sq-f.go{box-shadow:0 0 0 4px #FFC85C,0 0 30px rgba(255,200,92,.6)}
 
+.skipact{transform:translateY(calc(-1 * var(--skiplift, 0px)));transition:opacity .4s,transform .6s}
 </style></head><body>
 <div id="viewport"><div id="stage">
 
@@ -3839,8 +3840,11 @@ function renderNotes() {
   const s = slides[cur];
   $("#notesTitle").textContent = `${cur + 1} / ${slides.length} · ${s.title}${s.steps ? ` · build ${s.step}/${s.steps}` : ""}`;
   $("#notesBody").innerHTML = fmtNotes(noteOf(slides[cur]));
+  liftSkip();
 }
-function toggleNotes(on) { notesEl.classList.toggle("on", on != null ? on : !notesEl.classList.contains("on")); renderNotes(); }
+function liftSkip() { const on = notesEl.classList.contains("on"); const gap = innerHeight - (OY + 1080 * SC); const h = on ? Math.max(0, notesEl.getBoundingClientRect().height - gap) / SC : 0; stage.style.setProperty("--skiplift", h + "px"); }
+function toggleNotes(on) { notesEl.classList.toggle("on", on != null ? on : !notesEl.classList.contains("on")); renderNotes(); liftSkip(); }
+addEventListener("resize", () => liftSkip());
 let pres = null, presStart = Date.now();
 function openPresenter() {
   let w = null;
@@ -3988,6 +3992,7 @@ addEventListener("keydown", (e) => {
   else if (k === "n" || k === "N") toggleNotes();
   else if (k === "p" || k === "P") openPresenter();
   else if (k === "f" || k === "F" || k === "F5") { e.preventDefault(); toggleFS(); }
+  else if ((k === "s" || k === "S") && $(".skipact", slides[cur].el)) { go(cur + 1, { dir: 1 }); }
   else if (k === "m" || k === "M") { muted = !muted; toast(muted ? "Timer sounds off" : "Timer sounds on"); }
   else if (k === "t" || k === "T") { if (slides[cur].id === "tree") openTree($(".s-tree .explore"), 0); }
   else if (H[slides[cur].id] && H[slides[cur].id].key) H[slides[cur].id].key(k, e);
@@ -4710,7 +4715,7 @@ H.close = {
     qcall: { sel: "#qcg button", item: () => H.qcall.answered(), hint: "Which quadrant? Tap the one the room calls out." }
   };
   function nudge(st, c) {
-    toast(c.hint, 2600); SFX.tick();
+    toast(c.hint + "  ·  Press Next again to skip", 3200); SFX.tick();
     const els = $$(c.sel, st.el); let n = 0;
     const flip = () => { els.forEach((e) => e.classList.toggle("nudge-on", n % 2 === 0)); if (++n < 4) setTimeout(flip, 320); else els.forEach((e) => e.classList.remove("nudge-on")); };
     flip();
@@ -4718,10 +4723,14 @@ H.close = {
   Object.entries(L).forEach(([id, c]) => {
     if (!byId[id]) return;
     const h = H[id] || (H[id] = {});
+    const own = h.next;
     h.next = (st) => {
-      if (c.item) { if (!c.item()) { nudge(st, c); return true; } return false; }
-      if (!c.done(st)) { nudge(st, c); return true; }
-      return false;
+      if (own && own(st)) return true;
+      const fin = c.item ? c.item() : c.done(st);
+      if (fin) return false;
+      const now = Date.now();
+      if (st._nudgeAt && now - st._nudgeAt < 4000) { st._nudgeAt = 0; return false; }
+      st._nudgeAt = now; nudge(st, c); return true;
     };
     const b = document.createElement("button"); b.className = "skipact"; b.textContent = "Skip activity ▸▸"; b.setAttribute("aria-label", "Skip this activity");
     b.addEventListener("click", (e) => { e.stopPropagation(); go(cur + 1, { dir: 1 }); });
