@@ -1,7 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
+<script>
+/* activity gate: Next/clicker won't leave an activity slide nobody has touched yet; the presenter gets a prompt, and S (or the Skip button) moves on anyway */
+(function(){
+  if(window.__actGate)return;
+  var EV={click:1,pointerdown:1,pointerup:1,mousedown:1,touchstart:1,input:1,change:1};
+  var ael=EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener=function(t,f,o){try{if(EV[t]&&this&&this.nodeType===1)this.__act=1}catch(e){}return ael.call(this,t,f,o)};
+  var IGN='.notes,nav,.avatar,[data-act="profiles"],.node,.lvn,[data-no-gate]';
+  var SKIP_IDS={profiles:1,tree:1,rating:1,home:1};
+  var acts=new Map(),started=new WeakSet(),tip=null,scanned=false;
+  function isAct(el){return el.__act||el.onclick||el.onpointerdown||el.onpointerup||el.onmousedown||el.ontouchstart||el.oninput||el.onchange||/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)}
+  function scan(){
+    scanned=true;
+    var slides=[].slice.call(document.querySelectorAll('.slide'));
+    slides.forEach(function(s,i){
+      if(i===0||i===slides.length-1||SKIP_IDS[s.dataset.id]||s.hasAttribute('data-no-gate'))return;
+      var list=[].slice.call(s.querySelectorAll('*')).filter(function(el){
+        if(!isAct(el)||el.closest(IGN))return false;
+        var tx=(el.textContent||'').trim();return tx.charAt(0)!=='↺';
+      });
+      if(!list.length)return;
+      if(list.every(function(el){return el.classList.contains('st')}))return;
+      acts.set(s,new Set(list));
+    });
+  }
+  function cur(){return document.querySelector('.slide.active')}
+  function hit(t){var s=cur();if(!s||!acts.has(s)||!t||!t.closest)return;var set=acts.get(s);for(var el=t;el&&el!==s;el=el.parentElement){if(set.has(el)){started.add(s);hideTip();return}}}
+  function showTip(){
+    if(!tip){
+      tip=document.createElement('div');tip.setAttribute('role','status');
+      tip.style.cssText='position:fixed;left:50%;bottom:4.5%;transform:translateX(-50%);z-index:2147483647;background:rgba(10,14,28,.94);color:#fff;font:600 17px/1.35 system-ui,-apple-system,Segoe UI,sans-serif;padding:12px 14px 12px 22px;border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.35);display:flex;gap:14px;align-items:center;white-space:nowrap';
+      tip.innerHTML='<span>Finish this activity first</span><button type="button" style="font:inherit;font-size:15px;background:#fff;color:#111;border:0;border-radius:999px;padding:7px 14px;cursor:pointer">Skip activity (S)</button>';
+      tip.querySelector('button').addEventListener('click',function(e){e.stopPropagation();skip()});
+      document.body.appendChild(tip);
+    }
+    tip.style.display='flex';clearTimeout(tip._t);tip._t=setTimeout(hideTip,4500);
+  }
+  function hideTip(){if(tip)tip.style.display='none'}
+  function blocked(){if(!scanned)return false;var s=cur();return !!(s&&acts.has(s)&&!started.has(s))}
+  function skip(){var s=cur();if(s)started.add(s);hideTip();if(typeof window.__actGateNext==='function')window.__actGateNext()}
+  window.__actGate={
+    block:function(){if(blocked()){showTip();return true}hideTip();return false},
+    info:function(){return [].slice.call(document.querySelectorAll('.slide')).map(function(x,i){return acts.has(x)?i+':'+(x.dataset.title||''):null}).filter(Boolean)}
+  };
+  window.addEventListener('pointerdown',function(e){hit(e.target)},true);
+  window.addEventListener('keydown',function(e){
+    var k=e.key,t=e.target;
+    if((k==='Enter'||k===' ')&&t&&t!==document.body)hit(t);
+    if((k==='s'||k==='S')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+      var tag=(t&&t.tagName)||'';if(/^(INPUT|TEXTAREA|SELECT)$/.test(tag)||(t&&t.isContentEditable))return;
+      if(blocked()){e.preventDefault();e.stopImmediatePropagation();skip()}
+    }
+  },true);
+  window.addEventListener('load',function(){setTimeout(scan,300)});
+})();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Respect Quest · Level 2: Conflict Between Friends</title>
 <style>
@@ -1213,7 +1271,7 @@ function show(n,keep){
   if(slides[n].querySelector('#shelf')&&!S.once.finished){S.once.finished=1;save()}
 }
 const base=()=>wipeQ!=null?wipeQ:(wiping&&pend!=null?pend:cur);
-const next=()=>go(base()+1),prev=()=>go(base()-1);
+const next=()=>{if(window.__actGate&&window.__actGate.block())return;go(base()+1)},__gn=(window.__actGateNext=()=>go(base()+1)),prev=()=>go(base()-1);
 $('#nextBtn').onclick=next;$('#prevBtn').onclick=prev;
 const notes=$('#notes');function tNotes(){notes.classList.toggle('open');$('#notesBtn').classList.toggle('on',notes.classList.contains('open'))}
 $('#notesBtn').onclick=tNotes;$('#notesClose').onclick=tNotes;
