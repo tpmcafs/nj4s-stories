@@ -1658,6 +1658,8 @@ body.noedge .edge{display:none}
 /* videos fade in only once they actually play; the animated image underneath carries the motion otherwise */
 video.vfade{opacity:0;transition:opacity .6s}
 video.vfade.vp{opacity:1}
+/* perf: once a video is playing, hide the animated image under it so the browser stops decoding both */
+img:has(+ video.vfade.vp){visibility:hidden;transition:visibility 0s .8s}
 .s-home:has(video.vfade.vp) .poster{visibility:hidden;transition:visibility 0s .8s}
 
 /* presenters: edit names on the slide */

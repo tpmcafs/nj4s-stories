@@ -1666,6 +1666,8 @@ body.noedge .edge{display:none}
 /* videos fade in only once they actually play; the animated image underneath carries the motion otherwise */
 video.vfade{opacity:0;transition:opacity .6s}
 video.vfade.vp{opacity:1}
+/* perf: once a video is playing, hide the animated image under it so the browser stops decoding both */
+img:has(+ video.vfade.vp){visibility:hidden;transition:visibility 0s .8s}
 .s-home:has(video.vfade.vp) .poster{visibility:hidden;transition:visibility 0s .8s}
 /* ====== shared kit (from E3): card surface, ring timers, flip cards, counters ====== */
 .cardx{border-radius:18px;background:linear-gradient(180deg,rgba(22,66,104,.82),rgba(7,28,48,.94));border:1px solid rgba(140,190,225,.22);box-shadow:0 20px 50px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)}

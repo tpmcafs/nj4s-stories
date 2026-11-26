@@ -875,7 +875,8 @@ function update(dt){
   cam.x+=(camT.x-cam.x)*ck;cam.y+=(camT.y-cam.y)*ck;cam.z=Math.exp(lerp(Math.log(cam.z),Math.log(camT.z),ck));
   updateCaps(t);
 }
-function frame(ts){const now=ts/1000;dt=Math.min(.05,last?now-last:.016);last=now;
+let __odd=0;function __settled(){return Math.abs(g-gT)<.002&&Math.abs(h-hT)<.002&&Math.abs(cam.x-camT.x)<.5&&Math.abs(cam.y-camT.y)<.5&&Math.abs(cam.z-camT.z)<cam.z*.002}
+function frame(ts){if(stageVisible&&__settled()&&(__odd^=1)){requestAnimationFrame(frame);return}const now=ts/1000;dt=Math.min(.05,last?now-last:.016);last=now;
   if(stageVisible){update(dt);render()}
   requestAnimationFrame(frame)}
 new IntersectionObserver(es=>{for(const e of es)stageVisible=e.isIntersecting},{rootMargin:'200px'}).observe(stage);
