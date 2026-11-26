@@ -1672,6 +1672,8 @@ body.noedge .edge{display:none}
 /* videos fade in only once they actually play; the animated image underneath carries the motion otherwise */
 video.vfade{opacity:0;transition:opacity .6s}
 video.vfade.vp{opacity:1}
+/* perf: once a video is playing, hide the animated image under it so the browser stops decoding both */
+img:has(+ video.vfade.vp){visibility:hidden;transition:visibility 0s .8s}
 /* spot: just the page (no step-by-step features) */
 .s-spot .spotbill{left:86px;top:250px;width:1060px;height:630px}
 .s-spot .spotback{left:1200px;top:250px;width:640px;height:380px}

@@ -1657,6 +1657,8 @@ body.noedge .edge{display:none}
 /* videos fade in only once they actually play; the animated image underneath carries the motion otherwise */
 video.vfade{opacity:0;transition:opacity .6s}
 video.vfade.vp{opacity:1}
+/* perf: once a video is playing, hide the animated image under it so the browser stops decoding both */
+img:has(+ video.vfade.vp){visibility:hidden;transition:visibility 0s .8s}
 .s-home:has(video.vfade.vp) .poster{visibility:hidden;transition:visibility 0s .8s}
 
 /* presenters: edit names on the slide */
@@ -2063,7 +2065,7 @@ button.cardx:active{transform:scale(.96)}
   <h1 class="ttl abs split" style="left:126px;top:268px;font-size:120px;--d:.4s">Habits Plus<br><span class="c">Bank &amp; Store</span></h1>
   <div class="meta3 rise" style="--d:.8s"><span class="m">98% Match</span><span>TV-G</span><span>Bank Opening · Store · Checkout</span></div>
   <p class="sub abs rise" style="left:130px;top:620px;width:860px;--d:.9s;color:var(--ice)">Bank Opening and interest, then this week’s bank event. Come back here for Checkout at the end of the episode.</p>
-  <a class="openact pop" style="left:130px;top:790px;--d:1.1s" href="../../Document%20Library/Activities/habitsplus-bank-and-store.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg><span>Open Bank &amp; Store</span></a>
+  <a class="openact pop" style="left:130px;top:790px;--d:1.1s" href="../activities/habitsplus-bank-and-store.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg><span>Open Bank &amp; Store</span></a>
 </section>
 
 <!-- 4 · PREVIOUSLY ON -->

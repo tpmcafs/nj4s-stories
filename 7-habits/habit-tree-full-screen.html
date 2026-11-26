@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Habits Plus · The Habit Tree</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
@@ -785,7 +786,8 @@ function update(dt){
   if(playing){if(Math.abs(g-gT)<.002){playT+=dt;if(playT>7.5){playIdx++;if(playIdx>=STOPS.length){setPlaying(false)}else goStop(playIdx)}}}
   updateBar();
 }
-function frame(ts){const now=ts/1000;dt=Math.min(.05,last?now-last:.016);last=now;update(dt);render();requestAnimationFrame(frame)}
+let __odd=0;function __settled(){return !playing&&Math.abs(g-gT)<.002&&Math.abs(h-hT)<.002&&Math.abs(cam.x-camT.x)<.5&&Math.abs(cam.y-camT.y)<.5&&Math.abs(cam.z-camT.z)<cam.z*.002}
+function frame(ts){if(__settled()&&(__odd^=1)){requestAnimationFrame(frame);return}const now=ts/1000;dt=Math.min(.05,last?now-last:.016);last=now;update(dt);render();requestAnimationFrame(frame)}
 
 /* ---------- panel ---------- */
 const order=STOPS.map(s=>s.id);
