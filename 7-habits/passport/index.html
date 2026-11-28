@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>7 Habits Passport</title>
+<title>Around the World in 7 Habits</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -966,7 +966,7 @@ html { touch-action: manipulation; }
 <div id="ghost" aria-hidden="true"></div>
 <div id="sweep" aria-hidden="true"></div>
 <header id="top">
-  <div class="brand"><i>7</i> HABITS <small>Passport</small></div>
+  <div class="brand"><small>Around the world in</small> <i>7</i> HABITS</div>
   <div class="crumb glass mono" id="crumb">Pick a stop</div>
   <div class="rmenu" id="rmenu">
     <div class="ritems" id="ritems"><button class="ritem glass press" id="homeBtn" style="--i:0" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><small>Stops</small></button><button class="ritem glass press" id="notesBtn" style="--i:1" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg><small>Notes</small></button><button class="ritem glass press" id="timerBtn" style="--i:2" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><small>Timer</small></button><button class="ritem glass press" id="pickBtn" style="--i:3" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg><small>Pick</small></button><button class="ritem glass press" id="fullBtn" style="--i:4" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><small>Full</small></button><button class="ritem glass press" id="lookBtn" style="--i:5" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><small>Look</small></button></div>
@@ -1488,7 +1488,7 @@ const rad = d => d * Math.PI / 180;
 const vec = (lat, lon) => { const p = rad(lat), l = rad(lon); return [Math.cos(p) * Math.sin(l), Math.sin(p), Math.cos(p) * Math.cos(l)]; };
 STOPS.forEach(s => s.v = vec(s.lat, s.lon));
 function readCol() { const cs = getComputedStyle(document.body); ['land', 'ocean-a', 'ocean-b', 'halo', 'ink'].forEach(k => col[k] = cs.getPropertyValue('--' + k).trim()); }
-function size() { DPR = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * DPR; cv.height = H * DPR; }
+function size() { DPR = Math.min(devicePixelRatio || 1, 1.5); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * DPR; cv.height = H * DPR; }
 function target() {
   const wide = W > 980;
   if (tab === 'route') return wide ? [W * .47, H * .54, Math.min(W * .2, H * .36), 1] : [W * .5, 300, Math.min(W * .4, 190), .5];
@@ -1518,7 +1518,17 @@ function orbit(front, t) {
     ctx.restore();
   });
 }
+/* perf: skip drawing while a full-screen photo hides the globe, and draw every other frame when nothing on the globe is moving */
+const __ph = document.getElementById('photo'); let __cov = 0, __odd = 0;
+function __gSkip(t) {
+  if (__ph && __ph.classList.contains('on')) { if (!__cov) __cov = t; if (t - __cov > 1100) return true; } else __cov = 0;
+  const tg = target(); if (tab === 'route') tg[2] *= gz;
+  if (tYaw != null || drag || pinch || gpts.size || rip || shoots.length || Math.abs(tg[0] - gx) > .5 || Math.abs(tg[1] - gy) > .5 || Math.abs(tg[2] - gr) > .5 || Math.abs(tg[3] - galpha) > .005) return false;
+  if (__odd ^= 1) { if (idle && !drag && !reduce) yaw += tab === 'route' ? .0006 : .0015; return true; }
+  return false;
+}
 function frame(t) {
+  if (__gSkip(t)) { requestAnimationFrame(frame); return; }
   const tg = target(), k = reduce ? 1 : .08;
   if (tab === 'route') tg[2] *= gz;
   if (!gr) { gx = tg[0]; gy = tg[1]; gr = tg[2]; galpha = tg[3]; }
@@ -1978,7 +1988,7 @@ const fmt = n => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
 const tmr = t => t ? `<button class="tm glass press" data-t="${t}"><span class="mono">Tap to start</span><b>${t}</b></button>` : '';
 const R = {
   cover: s => { const p = STOPS[sess]; return `<div class="sl cov" style="--c:${p.c}"><div class="bar"></div><div class="mono kk">${sess ? 'Habit ' + p.n : 'The beginning'} · ${p.code}</div><h1 class="xl">${p.habit}<br><em>${p.place}</em></h1><p class="lead">${p.why}</p><div class="guides glass"><span class="mono">Your guides today</span><span id="guides" contenteditable="true" spellcheck="false" role="textbox" aria-label="Guide names">${st.guides || 'Tap to type names'}</span></div></div>`; },
-  intro: s => `<div class="sl cov" style="--c:#FFCB85"><div class="bar"></div><div class="mono kk">Welcome aboard</div><h1 class="xl">7 Habits Passport<br><em>Seven habits. Seven stops.</em></h1><p class="lead">Every session is a new destination. Do the activities, earn the stamp, fill the passport.</p><div class="guides glass"><span class="mono">Your guides today</span><span id="guides" contenteditable="true" spellcheck="false" role="textbox" aria-label="Guide names">${st.guides || 'Tap to type names'}</span></div></div>`,
+  intro: s => `<div class="sl cov" style="--c:#FFCB85"><div class="bar"></div><div class="mono kk">Welcome aboard</div><h1 class="xl" style="font-size:clamp(30px,min(4.4vw,7.4vh),80px)">Around the World<br>in 7 Habits<br><em style="white-space:nowrap">Seven habits. Seven stops.</em></h1><p class="lead">Every session is a new destination. Do the activities, earn the stamp, fill the passport.</p><div class="guides glass"><span class="mono">Your guides today</span><span id="guides" contenteditable="true" spellcheck="false" role="textbox" aria-label="Guide names">${st.guides || 'Tap to type names'}</span></div></div>`,
   tour: s => { const p = STOPS[s.f]; return `<div class="sl cov" style="--c:${p.c}"><div class="bar"></div><div class="mono kk">${stopLab(s.f)} · ${p.code}</div><h1 class="xl">${p.place}<br><em>${p.habit}</em></h1><p class="lead">${p.why}</p></div>`; },
   match: s => { const order = [4, 1, 6, 0, 3, 5, 2]; return `<div class="sl">${head(s)}<div class="mgrid">${s.pairs.map((p, i) => `<div class="mc glass" data-i="${i}" role="button" tabindex="0" style="--c:${STOPS[i + 1].c}"><span class="mnum">${i + 1}</span><div class="mface"><h3>${p[0]}</h3><div class="mslot"><span>its flip side?</span></div></div></div>`).join('')}<div class="mc mscore glass"><b id="mcount">0</b><span>of 7 matched</span><button class="ghost press" id="mshow">Show the rest</button></div></div><div class="tray2" id="mtray">${order.map(i => `<button class="chip2 press" data-i="${i}">${s.pairs[i][1]}</button>`).join('')}</div><p class="lead" id="mmsg" style="text-align:center;max-width:none">Tap an opposite, then tap the habit it belongs to.</p></div>`; },
   say: s => `<div class="sl say">${s.k ? `<div class="mono kk">${s.k}</div>` : ''}<blockquote class="q">${s.q}</blockquote>${s.by ? `<div class="mono">${s.by}</div>` : ''}${s.sub ? `<p class="lead">${s.sub}</p>` : ''}</div>`,
